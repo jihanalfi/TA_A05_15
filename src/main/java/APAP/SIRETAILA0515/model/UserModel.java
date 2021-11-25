@@ -25,7 +25,7 @@ public class UserModel implements Serializable {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private Long id;
+    private String id;
 
     @NotNull
     @Size(max=50)
@@ -37,10 +37,7 @@ public class UserModel implements Serializable {
     @Column(name="nama", nullable = false)
     private String nama;
 
-    @NotNull
-    @Size(max=50)
-    @Column(name="email", nullable = false)
-    private String email;
+
 
     @NotNull
     @Lob
