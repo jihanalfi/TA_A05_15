@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>Emsidi</title>
+  <meta charset="UTF-8">
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('Cabang')"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Tambah Cabang Emsidi</h2>
+        <br>
+        <form th:action="@{/cabang/add}" th:object="${cabang}" method="POST">
+<!--          <input type="hidden" th:field="*{status}" />-->
+
+          Nama Cabang : <br>
+          <input th:value="*{namaCabang}" required class="form-control" type="text" name="namaCabang"/>
+          <br><br>
+
+          Alamat : <br>
+          <input th:value="*{alamatCabang}" required class="form-control" type="text" name="alamatCabang"/>
+          <br><br>
+
+          Nomor Telepon : <br>
+          <input th:value="*{noTeleponCabang}" required class="form-control" type="text" name="noTeleponCabang"/>
+          <br><br>
+
+          Ukuran Cabang (M) : <br>
+          <input th:value="*{ukuranCabang}" required class="form-control" type="number" name="ukuranCabang"/>
+          <br><br>
+
+            Status : <br>
+            <select th:field="*{status}"class="form-control" name="status" disabled>
+                <option value="2">Disetujui</option>
+                <option value="1">Ditolak</option>
+                <option value="0">Menunggu Persetujuan</option>
+            </select>
+            <br><br>
+
+
+          <button class="btn btn-primary" name="save" type="submit">Submit</button>
+          <a class="btn btn-primary" href="/">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

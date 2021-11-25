@@ -30,6 +30,7 @@ public class RoleModel implements Serializable {
     @Column(name = "role", nullable = false)
     private String role;
 
+    // Relasi dengan UserModel
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore

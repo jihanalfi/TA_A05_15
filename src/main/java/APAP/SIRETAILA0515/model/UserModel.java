@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class UserModel implements Serializable {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    private Long id;
 
     @NotNull
     @Size(max=50)
@@ -46,10 +47,16 @@ public class UserModel implements Serializable {
     @Column(name="password", nullable = false)
     private String password;
 
+    // Relasi dengan RoleModel
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private RoleModel role;
 
+    // Relasi dengan CabangModel
+    @OneToMany(mappedBy = "penanggungJawab", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CabangModel> ListCabang;
+
 }
+
