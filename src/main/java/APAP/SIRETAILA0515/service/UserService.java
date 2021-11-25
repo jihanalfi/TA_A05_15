@@ -6,8 +6,8 @@ import APAP.SIRETAILA0515.model.UserModel;
 import java.util.List;
 
 public interface UserService {
-//    UserModel addUser(UserModel user);
-//    public String encrypt(String password);
+    UserModel addUser(UserModel user);
+    public String encrypt(String password);
     List<UserModel> getUserList();
     void deleteUser(String username);
     UserModel findUserbyUsername(String username);
