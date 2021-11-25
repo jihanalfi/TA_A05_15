@@ -59,3 +59,4 @@ public class UserModel implements Serializable {
     private List<CabangModel> ListCabang;
 
 }
+
