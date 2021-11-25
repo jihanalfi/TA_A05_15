@@ -27,16 +27,21 @@ public class UserController {
     private String addUserFormPage(Model model) {
         UserModel user = new UserModel();
         List<RoleModel> listRole = roleService.findAll();
-        model.addAttribute("user", user);
-        model.addAttribute("listRole", listRole);
-        return "form-add-user";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+            model.addAttribute("user", user);
+            model.addAttribute("listRole", listRole);
+            return "form-add-user";
+        }
+        return "Access-Denied";
     }
 
     @PostMapping(value = "/add")
     private String addUserSubmit(@ModelAttribute UserModel user, Model model) {
         userService.addUser(user);
         model.addAttribute("user", user);
-        return "redirect:/";
+        return "add-user";
     }
 
 //    @GetMapping("/viewall")
