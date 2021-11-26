@@ -13,7 +13,7 @@
 | 1906298935 | Jihan Alfiyyah M | 1 |
 | 1906353441 | Muhammad Daffa Yudhistira Dwipayana | 2,3 |
 | 1906307523 | Muhammad Rafli Amardito | 4 |
-| 1906353826 | Nathanael Pardosi | 7 |
+| 1906353826 | Nathanael Pardosi | 7,10 |
 ---
 **Kontrak Tahap 2 Tugas Akhir**
 
@@ -29,7 +29,7 @@
 
 | NPM | Nama Lengkap | Fitur yang akan diselesaikan  |
 | ----------| --- | ---------- | 
-| 1906298935 | Jihan Alfiyyah M | 10,11 |
+| 1906298935 | Jihan Alfiyyah M | 11 |
 | 1906353441 | Muhammad Daffa Yudhistira Dwipayana | 5,6 |
 | 1906307523 | Muhammad Rafli Amardito | 8,9 |
 | 1906353826 | Nathanael Pardosi | 15 |
