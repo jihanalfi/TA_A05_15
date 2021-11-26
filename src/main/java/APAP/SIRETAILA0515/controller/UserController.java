@@ -40,7 +40,7 @@ public class UserController {
     @PostMapping(value = "/add")
     private String addUserSubmit(@ModelAttribute UserModel user, Model model) {
         userService.addUser(user);
-        model.addAttribute("user", user);
+        model.addAttribute("username", user.getUsername());
         return "add-user";
     }
 

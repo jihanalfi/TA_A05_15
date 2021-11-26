@@ -6,14 +6,14 @@
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
-<body>
+<body style="background-color: #A3D2CA">
 <nav th:replace="fragments/fragment :: navbar('User')"></nav>
 <div class="container">
-    <div class="card m-4 p-4">
+    <div class="card m-4 p-4" style="background-color: #F7F3E9">
         <div class="card-body">
             <div class="justify-content-center">
-                <h2 th:text="'User dengan nomor ' + ${role} + ' berhasil ditambahkan'"></h2>
-                <a class="btn btn-primary" href="/">Kembali ke Home</a>
+                <h2 th:text="'User dengan username ' + ${username} + ' berhasil ditambahkan'"></h2>
+                <a class="btn btn-outline-dark" href="/">Kembali ke Home</a>
             </div>
         </div>
     </div>

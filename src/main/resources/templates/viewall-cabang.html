@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 
 <head>
-    <title>Emsidi</title>
+    <title>SI-RETAIL</title>
     <meta charset="UTF-8">
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
-<body>
+<body style="background-color: #A3D2CA">
 <nav th:replace="fragments/fragment :: navbar('Cabang')"></nav>
 <div class="container">
     <h2>Daftar Seluruh Cabang Emsidi</h2>
@@ -38,16 +38,16 @@
             <td th:if="${cabang.status}== 1">Ditolak </td>
             <td th:if="${cabang.status}== 2">Disetujui</td>
             <td>
-                <a class="btn btn-primary" th:href="@{/cabang/view(noCabang=${cabang.Id})}">Detail
+                <a class="btn btn-outline-dark" th:href="@{/cabang/view(noCabang=${cabang.Id})}">Detail
                     Cabang</a>
             </td>
             <td>
-                <a class="btn btn-primary" th:href="@{/cabang/update/} + ${cabang.Id}">Update Cabang</a>
+                <a class="btn btn-outline-dark" th:href="@{/cabang/update/} + ${cabang.Id}">Update Cabang</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary" href="/">Home</a>
+    <a class="btn btn-outline-dark" href="/">Home</a>
 </div>
 
 </body>

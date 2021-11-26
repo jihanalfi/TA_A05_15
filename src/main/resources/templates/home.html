@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>SI-RETAIL</title>
@@ -25,8 +25,8 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-center">
-                    <a href="/" class="mx-2 btn btn-outline-dark">Create Cabang</a>
-                    <a href="/" class="mx-2 btn btn-outline-dark">View All Cabang</a>
+                    <a th:href="@{/cabang/add}" class="mx-2 btn btn-outline-dark">Create Cabang</a>
+                    <a th:href="@{/cabang/viewall}" class="mx-2 btn btn-outline-dark">View All Cabang</a>
                 </div>
             </div>
         </div>
