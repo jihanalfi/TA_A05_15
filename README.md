@@ -20,8 +20,8 @@
 | NPM | Nama Lengkap | Fitur yang akan diselesaikan  |
 | ----------| --- | ---------- | 
 | 1906298935 | Jihan Alfiyyah M | 14,18 |
-| 1906353441 | Muhammad Daffa Yudhistira Dwipayana | 16,17 |
-| 1906307523 | Muhammad Rafli Amardito | 13 |
+| 1906353441 | Muhammad Daffa Yudhistira Dwipayana | 16 |
+| 1906307523 | Muhammad Rafli Amardito | 13a,13b |
 | 1906353826 | Nathanael Pardosi | 12 |
 ---
 
@@ -29,7 +29,7 @@
 
 | NPM | Nama Lengkap | Fitur yang akan diselesaikan  |
 | ----------| --- | ---------- | 
-| 1906298935 | Jihan Alfiyyah M | 11 |
+| 1906298935 | Jihan Alfiyyah M | 11,17 |
 | 1906353441 | Muhammad Daffa Yudhistira Dwipayana | 5,6 |
 | 1906307523 | Muhammad Rafli Amardito | 8,9 |
 | 1906353826 | Nathanael Pardosi | 15 |
