@@ -1,4 +1,4 @@
-# Tugas Akhir TK APAP
+# Tugas Akhir
 ## Authors
 * **Nathanael Pardosi** - *1906353826* - *A*
 * **Muhammad Rafli Amardito** - *1906307523* - *A*
