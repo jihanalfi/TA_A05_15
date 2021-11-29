@@ -22,7 +22,7 @@
             <th>Ukuran Cabang (M)</th>
             <th>Jumlah item dalam cabang</th>
             <th>Status</th>
-            <th>Edit</th>
+            <th th:unless="${role == '[Staff Cabang]'}" >Edit</th>
         </tr>
         </thead>
         <tbody>
@@ -38,11 +38,15 @@
             <td th:if="${cabang.status}== 1">Ditolak </td>
             <td th:if="${cabang.status}== 2">Disetujui</td>
             <td>
-                <a class="btn btn-outline-dark" th:href="@{/cabang/view(noCabang=${cabang.Id})}">Detail
+                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" th:href="@{/cabang/view(noCabang=${cabang.Id})}">Detail
                     Cabang</a>
+                <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark" th:href="@{/cabang/view(noCabang=${cabang.Id})}">Detail
+                    Cabang</a>
+
             </td>
             <td>
-                <a class="btn btn-outline-dark" th:href="@{/cabang/update/} + ${cabang.Id}">Update Cabang</a>
+                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" th:href="@{/cabang/update/} + ${cabang.Id}">Update Cabang</a>
+                <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark" th:href="@{/cabang/update/} + ${cabang.Id}">Update Cabang</a>
             </td>
         </tr>
         </tbody>

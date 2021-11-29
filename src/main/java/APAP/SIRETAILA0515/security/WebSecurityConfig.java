@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 //         auth.inMemoryAuthentication()
 //         .passwordEncoder(encoder())
 //         .withUser("userNih").password(encoder().encode("user123"))
-//         .roles("USER");
+//         .roles("Kepala Retail");
 //     }
 
     @Autowired

@@ -1,9 +1,14 @@
 package APAP.SIRETAILA0515.controller;
 
 import APAP.SIRETAILA0515.model.CabangModel;
+import APAP.SIRETAILA0515.model.UserModel;
 import APAP.SIRETAILA0515.service.CabangService;
+import APAP.SIRETAILA0515.service.UserService;
+import APAP.SIRETAILA0515.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +24,35 @@ public class CabangController {
     @Qualifier("cabangServiceImpl")
     @Autowired
     private CabangService cabangService;
+    @Autowired
+    private UserService userService;
+
 
 
     @GetMapping("/cabang/add")
     public String addCabangForm(Model model) {
-        model.addAttribute("cabang", new CabangModel());
-        return "form-add-cabang";
+        CabangModel cabang = new CabangModel();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+            model.addAttribute("cabang", cabang);
+            return "form-add-cabang";
+        } else if (currentPrincipalName.equals("[Manager Cabang]")) {
+            model.addAttribute("cabang", cabang);
+            return "form-add-cabang";
+        }
+        return "Access-Denied";
     }
 
-    @PostMapping(value="/cabang/add",params={"save"})
-    public String addCabangSubmit(@ModelAttribute CabangModel cabang, Model model) {
+    @PostMapping(value="/cabang/add")
+    public String addCabangSubmit(@ModelAttribute CabangModel cabang, BindingResult bindingResult, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserModel penanggungJawab = userService.findUserbyName(currentPrincipalName);
+        int i=2;
+        long status = i;
+        cabang.setPenanggungJawab(penanggungJawab);
+        cabang.setStatus(status);
         cabangService.addCabang(cabang);
         model.addAttribute("Id",cabang.getId());
         return "add-cabang";
@@ -67,6 +91,9 @@ public class CabangController {
 
     @GetMapping("/cabang/viewall")
     public String listCabang(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        model.addAttribute("role",currentPrincipalName);
         List<CabangModel> listCabang = cabangService.getCabangList();
         model.addAttribute("listCabang", listCabang);
         return "viewall-cabang";
