@@ -33,14 +33,6 @@
           <input th:value="*{ukuranCabang}" required class="form-control" type="number" name="ukuranCabang"/>
           <br>
 
-            Status : <br>
-            <select th:field="*{status}"class="form-control" name="status" disabled>
-                <option value="2">Disetujui</option>
-                <option value="1">Ditolak</option>
-                <option value="0">Menunggu Persetujuan</option>
-            </select>
-            <br><br>
-
             <button type="submit" class="btn btn-outline-dark">Submit</button>
             <button class="btn"><a class="text-muted" href="/">Cancel</a></button>
         </form>

@@ -44,6 +44,11 @@ public class UserServiceImpl implements UserService {
         return userDb.findByUsername(username);
     }
 
+    @Override
+    public UserModel findUserbyName(String name){
+        return userDb.findByNama(name);
+    }
+
 //    @Override
 //    public boolean isMatch(String newPassword, String oldPassword) {
 //        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

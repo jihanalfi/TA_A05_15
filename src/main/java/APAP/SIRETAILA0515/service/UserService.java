@@ -11,6 +11,7 @@ public interface UserService {
     List<UserModel> getUserList();
     void deleteUser(String username);
     UserModel findUserbyUsername(String username);
+    UserModel findUserbyName(String name);
 //    boolean isMatch(String newPassword, String oldPassword);
     void setPassword(UserModel myUser, String newPassword);
 }
