@@ -47,6 +47,10 @@ public class ItemCabangModel implements Serializable {
     @Column(name = "kategori", nullable = false)
     private String kategori;
 
+    @NotNull
+    @Column (name = "id_promo", nullable = false)
+    private int id_promo;
+
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "cabang_id", referencedColumnName = "Id", nullable = false)
     private CabangModel cabang;
