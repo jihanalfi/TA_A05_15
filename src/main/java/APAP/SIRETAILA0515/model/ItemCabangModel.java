@@ -51,6 +51,9 @@ public class ItemCabangModel implements Serializable {
     @JoinColumn(name = "cabang_id", referencedColumnName = "Id", nullable = false)
     private CabangModel cabang;
 
-    @Column(name = "id_promo", nullable = true)
-    private int promo;
+    @Column (name = "id_promo", nullable = false)
+    private int id_promo;
+
+  
+
 }
