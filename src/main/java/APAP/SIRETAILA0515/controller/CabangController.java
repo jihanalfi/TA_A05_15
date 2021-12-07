@@ -44,7 +44,7 @@ public class CabangController {
         return "Access-Denied";
     }
 
-    @PostMapping(value="/cabang/add")
+    @PostMapping(value="/cabang/add")t
     public String addCabangSubmit(@ModelAttribute CabangModel cabang, BindingResult bindingResult, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -57,6 +57,7 @@ public class CabangController {
         model.addAttribute("Id",cabang.getId());
         return "add-cabang";
     }
+
 //
 //    @PostMapping(value="/cabang/add", params={"addRow"})
 //    public String addRow(

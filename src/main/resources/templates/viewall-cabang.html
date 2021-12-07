@@ -38,9 +38,9 @@
             <td th:if="${cabang.status}== 1">Ditolak </td>
             <td th:if="${cabang.status}== 2">Disetujui</td>
             <td>
-                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" th:href="@{/cabang/view(noCabang=${cabang.Id})}">Detail
+                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" th:href="@{/cabang/view/} + ${cabang.Id}">Detail
                     Cabang</a>
-                <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark" th:href="@{/cabang/view(noCabang=${cabang.Id})}">Detail
+                <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark"  th:href="@{/cabang/view/} + ${cabang.Id}">Detail
                     Cabang</a>
 
             </td>
