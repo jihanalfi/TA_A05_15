@@ -25,7 +25,7 @@ public class ItemCabangModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
+//    @Id
     @GeneratedValue(generator = "system-uuid")
     @Column(name = "uuid_item")
     private UUID uuidItem;
@@ -47,8 +47,10 @@ public class ItemCabangModel implements Serializable {
     @Column(name = "kategori", nullable = false)
     private String kategori;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "cabang_id", referencedColumnName = "Id", nullable = false)
     private CabangModel cabang;
 
+    @Column(name = "id_promo", nullable = true)
+    private int promo;
 }

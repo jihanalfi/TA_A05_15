@@ -1,8 +1,10 @@
 package APAP.SIRETAILA0515.controller;
 
 import APAP.SIRETAILA0515.model.CabangModel;
+import APAP.SIRETAILA0515.model.ItemCabangModel;
 import APAP.SIRETAILA0515.model.UserModel;
 import APAP.SIRETAILA0515.service.CabangService;
+import APAP.SIRETAILA0515.service.ItemCabangService;
 import APAP.SIRETAILA0515.service.UserService;
 import APAP.SIRETAILA0515.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,15 @@ import java.util.List;
 @Controller
 public class CabangController {
     @Qualifier("cabangServiceImpl")
+
     @Autowired
     private CabangService cabangService;
+
     @Autowired
     private UserService userService;
 
-
+    @Autowired
+    private ItemCabangService itemCabangService;
 
     @GetMapping("/cabang/add")
     public String addCabangForm(Model model) {
@@ -99,13 +104,16 @@ public class CabangController {
         return "viewall-cabang";
     }
 
-    @GetMapping("/cabang/view")
+    @GetMapping("/cabang/view/{idCabang}")
     public String viewDetailCabang(
-            @RequestParam(value = "Id") Long Id,
+            @PathVariable Long idCabang,
             Model model
     ) {
-        CabangModel cabang = cabangService.getCabangById(Id);
+        CabangModel cabang = cabangService.getCabangById(idCabang);
+        List<ItemCabangModel> itemCabang = itemCabangService.retrieveItemByCabang(cabang);
+
         model.addAttribute("cabang", cabang);
+        model.addAttribute("listItem", itemCabang);
         return "view-cabang";
     }
 
