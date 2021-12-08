@@ -20,6 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -37,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 //         auth.inMemoryAuthentication()
 //         .passwordEncoder(encoder())
 //         .withUser("userNih").password(encoder().encode("user123"))
-//         .roles("Kepala Retail");
+//         .roles("USER");
 //     }
 
     @Autowired

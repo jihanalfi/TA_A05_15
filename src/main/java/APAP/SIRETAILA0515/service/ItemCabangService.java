@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ItemCabangService {
     List<ItemCabangModel> retrieveItemByCabang(CabangModel cabang);
+    ItemCabangModel getItemById(Long id);
 }
