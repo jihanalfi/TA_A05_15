@@ -53,10 +53,10 @@ public class CabangController {
     public String addCabangSubmit(@ModelAttribute CabangModel cabang, BindingResult bindingResult, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        UserModel penanggungJawab = userService.findUserbyName(currentPrincipalName);
+        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
         int i=2;
         long status = i;
-        cabang.setPenanggungJawab(penanggungJawab);
+        cabang.setPenanggungJawab(penanggung_jawab);
         cabang.setStatus(status);
         cabangService.addCabang(cabang);
         model.addAttribute("Id",cabang.getId());
