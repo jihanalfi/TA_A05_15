@@ -10,10 +10,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import javax.transaction.Transactional;
 import java.util.Set;
 import java.util.HashSet;
 
 @Service
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService{
     @Autowired
     private UserDb userDb;
