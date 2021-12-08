@@ -3,7 +3,9 @@ package APAP.SIRETAILA0515.controller;
 import APAP.SIRETAILA0515.model.CabangModel;
 import APAP.SIRETAILA0515.model.ItemCabangModel;
 import APAP.SIRETAILA0515.model.UserModel;
+import APAP.SIRETAILA0515.rest.CouponDetail;
 import APAP.SIRETAILA0515.service.CabangService;
+import APAP.SIRETAILA0515.service.CouponService;
 import APAP.SIRETAILA0515.service.ItemCabangService;
 import APAP.SIRETAILA0515.service.UserService;
 import APAP.SIRETAILA0515.service.UserService;
@@ -29,6 +31,9 @@ public class CabangController {
     private CabangService cabangService;
 
     @Autowired
+    private CouponService couponService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -49,14 +54,14 @@ public class CabangController {
         return "Access-Denied";
     }
 
-    @PostMapping(value="/cabang/add")t
+    @PostMapping(value="/cabang/add")
     public String addCabangSubmit(@ModelAttribute CabangModel cabang, BindingResult bindingResult, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        UserModel penanggungJawab = userService.findUserbyName(currentPrincipalName);
+        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
         int i=2;
         long status = i;
-        cabang.setPenanggungJawab(penanggungJawab);
+        cabang.setPenanggungJawab(penanggung_jawab);
         cabang.setStatus(status);
         cabangService.addCabang(cabang);
         model.addAttribute("Id",cabang.getId());
@@ -104,6 +109,33 @@ public class CabangController {
         model.addAttribute("listCabang", listCabang);
         return "viewall-cabang";
     }
+
+    @GetMapping("/kupon/viewall")
+    public String listKupon(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        model.addAttribute("role",currentPrincipalName);
+        List<CouponDetail> listKupon = couponService.getCoupons();
+        model.addAttribute("listKupon", listKupon);
+        return "list-kupon";
+    }
+
+//    @PostMapping(value="/kupon/{cabangId}/{ItemId}/{kuponId}")
+//    public void pakaiKupon(@ModelAttribute CouponDetail kupon, @PathVariable Long cabangId,@PathVariable Integer itemId,@PathVariable Long kuponId,BindingResult bindingResult, Model model) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
+//        ItemCabangModel item = itemCabangService.getItemById(cabangId);
+//        CouponDetail kupon =
+//        int i=2;
+//        long status = i;
+//        cabang.setPenanggungJawab(penanggung_jawab);
+//        cabang.setStatus(status);
+//        cabangService.addCabang(cabang);
+//        model.addAttribute("Id",cabang.getId());
+//        return "add-cabang";
+//    }
+
 
     @GetMapping("/cabang/view/{idCabang}")
     public String viewDetailCabang(
