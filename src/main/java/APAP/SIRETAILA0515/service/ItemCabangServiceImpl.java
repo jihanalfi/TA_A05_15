@@ -19,4 +19,9 @@ public class ItemCabangServiceImpl implements ItemCabangService{
     public List<ItemCabangModel> retrieveItemByCabang(CabangModel cabang){
         return itemCabangDb.findAllByCabang(cabang);
     }
+
+    @Override
+    public ItemCabangModel getItemById(Long Id){
+        return itemCabangDb.getById(Id);
+    }
 }
