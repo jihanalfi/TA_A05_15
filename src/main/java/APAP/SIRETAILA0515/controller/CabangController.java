@@ -61,6 +61,7 @@ public class CabangController {
         UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
         int i=2;
         long status = i;
+
         cabang.setPenanggungJawab(penanggung_jawab);
         cabang.setStatus(status);
         cabangService.addCabang(cabang);
