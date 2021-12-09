@@ -28,7 +28,7 @@
                 <p th:text="'Penanggung Jawab : ' + ${cabang.penanggungJawab.nama}"></p>
                 <br>
                 <h4>Daftar Item: </h4>
-                <a class="btn btn-outline-dark">+ Tambah Item</a>
+                <a class="btn btn-outline-dark" th:href="@{/cabang/addItem/} + ${cabang.id}">+ Tambah Item</a>
 
                 <table class="table">
                     <thead>

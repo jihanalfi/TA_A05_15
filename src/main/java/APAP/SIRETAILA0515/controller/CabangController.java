@@ -4,11 +4,10 @@ import APAP.SIRETAILA0515.model.CabangModel;
 import APAP.SIRETAILA0515.model.ItemCabangModel;
 import APAP.SIRETAILA0515.model.UserModel;
 import APAP.SIRETAILA0515.rest.CouponDetail;
-import APAP.SIRETAILA0515.service.CabangService;
-import APAP.SIRETAILA0515.service.CouponService;
-import APAP.SIRETAILA0515.service.ItemCabangService;
+import APAP.SIRETAILA0515.rest.ItemDetail;
+import APAP.SIRETAILA0515.service.*;
 import APAP.SIRETAILA0515.service.UserService;
-import APAP.SIRETAILA0515.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -25,6 +24,10 @@ import java.util.List;
 
 @Controller
 public class CabangController {
+    @Qualifier("itemRestServiceImpl")
+    @Autowired
+    private ItemRestService itemRestService;
+
     @Qualifier("cabangServiceImpl")
 
     @Autowired
@@ -38,6 +41,7 @@ public class CabangController {
 
     @Autowired
     private ItemCabangService itemCabangService;
+
 
     @GetMapping("/cabang/add")
     public String addCabangForm(Model model) {
@@ -150,6 +154,92 @@ public class CabangController {
         model.addAttribute("listItem", itemCabang);
         return "view-cabang";
     }
+
+    @GetMapping("/cabang/addItem/{idCabang}")
+    public String addItemCabang (@PathVariable Long idCabang, Model model) throws JsonProcessingException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        CabangModel cabang = cabangService.getCabangById(idCabang);
+        List<ItemDetail> listItem =  itemRestService.getListItem();
+        List<ItemCabangModel> listItemCabang = new ArrayList<>();
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+
+            cabang.setListItemCabang(listItemCabang);
+            cabang.getListItemCabang().add(new ItemCabangModel());
+
+            model.addAttribute("idCabang", idCabang);
+            model.addAttribute("listItem", listItem);
+            model.addAttribute("cabang", cabang);
+
+            return "form-add-item";
+        } else if (currentPrincipalName.equals("[Manager Cabang]")) {
+            UserModel user = userService.findUserbyUsername(authentication.getName().toString());
+            if (cabang.getPenanggungJawab().equals(user)){
+
+                cabang.setListItemCabang(listItemCabang);
+                cabang.getListItemCabang().add(new ItemCabangModel());
+
+                model.addAttribute("idCabang", idCabang);
+                model.addAttribute("listItem", listItem);
+                model.addAttribute("cabang", cabang);
+
+                return "form-add-item";
+            }
+
+        }
+        return "Access-DeniedItem";
+
+
+    }
+
+    @PostMapping(value="/cabang/addItem/{idCabang}", params={"addRow"})
+    public String addRowItem(@PathVariable Long idCabang, @ModelAttribute CabangModel cabang, Model model) throws JsonProcessingException {
+        if (cabang.getListItemCabang() == null || cabang.getListItemCabang().size() == 0){
+            cabang.setListItemCabang(new ArrayList<>());
+        }
+        List<ItemDetail> listItem =  itemRestService.getListItem();
+        cabang.getListItemCabang().add(new ItemCabangModel());
+        model.addAttribute("idCabang", idCabang);
+        model.addAttribute("listItem", listItem);
+        model.addAttribute("cabang", cabang);
+        return "form-add-item";
+    }
+
+    @PostMapping(value="/cabang/addItem/{idCabang}", params={"deleteRow"})
+    public String deleteRowItem(@PathVariable Long idCabang, @RequestParam("deleteRow") Integer row, @ModelAttribute CabangModel cabang, Model model) throws JsonProcessingException {
+        final Integer indexRow = Integer.valueOf(row);
+        cabang.getListItemCabang().remove(indexRow.intValue());
+        List<ItemDetail> listItem =  itemRestService.getListItem();
+        model.addAttribute("idCabang", idCabang);
+        model.addAttribute("listItem", listItem);
+        model.addAttribute("cabang", cabang);
+
+        return "form-add-item";
+    }
+
+    @PostMapping(value="/cabang/addItem/{idCabang}", params={"save"})
+    public String saveItem(@PathVariable Long idCabang, @ModelAttribute CabangModel cabang, Model model) throws JsonProcessingException {
+
+        Boolean cek = itemRestService.cekStokItem(cabang.getListItemCabang());
+
+        if(cek == true){
+            CabangModel cabangLast = cabangService.getCabangById(idCabang);
+            List<ItemCabangModel> listItemCabang = cabangLast.getListItemCabang();
+            cabangLast.setListItemCabang(cabang.getListItemCabang());
+            itemRestService.addItemToCabang(cabangLast, listItemCabang);
+            return "addItemSuccess";
+        } else {
+            model.addAttribute("id", idCabang);
+            return "outOfStok";
+        }
+
+
+
+    }
+
+
+
+
 
 //    @GetMapping("/cabang/update/{noCabang}")
 //    public String updateCabangForm(
