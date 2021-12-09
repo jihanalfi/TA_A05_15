@@ -25,6 +25,6 @@ public class CouponDetail {
     @JsonProperty("expiryDate")
     private Date expiryDate;
 
-    private String pair;
+//    private String pair;
 
 }

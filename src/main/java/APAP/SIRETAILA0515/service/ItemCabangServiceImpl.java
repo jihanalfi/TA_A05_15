@@ -24,4 +24,9 @@ public class ItemCabangServiceImpl implements ItemCabangService{
     public ItemCabangModel getItemById(Long Id){
         return itemCabangDb.getById(Id);
     }
+
+    @Override
+    public void addItem(ItemCabangModel item) {
+        itemCabangDb.save(item);
+    }
 }

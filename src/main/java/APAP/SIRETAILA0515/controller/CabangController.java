@@ -61,7 +61,6 @@ public class CabangController {
         UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
         int i=2;
         long status = i;
-
         cabang.setPenanggungJawab(penanggung_jawab);
         cabang.setStatus(status);
         cabangService.addCabang(cabang);
@@ -111,31 +110,32 @@ public class CabangController {
         return "viewall-cabang";
     }
 
-    @GetMapping("/kupon/viewall")
-    public String listKupon(Model model) {
+    @GetMapping("/kupon/{cabangId}/{itemId}/{kuponId}")
+    public String listKupon(Model model, @PathVariable Long cabangId,@PathVariable Long itemId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getAuthorities().toString();
         model.addAttribute("role",currentPrincipalName);
         List<CouponDetail> listKupon = couponService.getCoupons();
+        CabangModel cabang = cabangService.getCabangById(cabangId);
+        ItemCabangModel item = itemCabangService.getItemById(itemId);
         model.addAttribute("listKupon", listKupon);
+        model.addAttribute("cabang",cabang);
+        model.addAttribute("item",item);
         return "list-kupon";
     }
 
-//    @PostMapping(value="/kupon/{cabangId}/{ItemId}/{kuponId}")
-//    public void pakaiKupon(@ModelAttribute CouponDetail kupon, @PathVariable Long cabangId,@PathVariable Integer itemId,@PathVariable Long kuponId,BindingResult bindingResult, Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentPrincipalName = authentication.getName();
-//        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
-//        ItemCabangModel item = itemCabangService.getItemById(cabangId);
-//        CouponDetail kupon =
-//        int i=2;
-//        long status = i;
-//        cabang.setPenanggungJawab(penanggung_jawab);
-//        cabang.setStatus(status);
-//        cabangService.addCabang(cabang);
-//        model.addAttribute("Id",cabang.getId());
-//        return "add-cabang";
-//    }
+    @PostMapping(value="/kupon/{cabangId}/{itemId}/{kuponId}")
+    public void pakaiKupon(@ModelAttribute CouponDetail kupon, @PathVariable Long cabangId,@PathVariable Long itemId,@PathVariable Integer kuponId, BindingResult bindingResult, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
+        ItemCabangModel item = itemCabangService.getItemById(itemId);
+        CouponDetail coupon = couponService.getCouponById(kuponId);
+        Long newHarga = item.getHarga()-Math.round(coupon.getDiscountAmount());
+        item.setHarga(newHarga);
+        item.setId_promo(coupon.getId());
+        itemCabangService.addItem(item);
+    }
 
 
     @GetMapping("/cabang/view/{idCabang}")
@@ -145,7 +145,6 @@ public class CabangController {
     ) {
         CabangModel cabang = cabangService.getCabangById(idCabang);
         List<ItemCabangModel> itemCabang = itemCabangService.retrieveItemByCabang(cabang);
-
         model.addAttribute("cabang", cabang);
         model.addAttribute("listItem", itemCabang);
         return "view-cabang";
