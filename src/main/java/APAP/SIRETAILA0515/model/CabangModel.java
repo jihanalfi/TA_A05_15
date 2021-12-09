@@ -28,25 +28,30 @@ public class CabangModel implements Serializable {
     private Long Id;
 
     @NotNull
+    @JsonIgnore
     @Size(max = 30)
     @Column(name = "nama_cabang", nullable = false)
     private String namaCabang;
 
     @NotNull
+    @JsonIgnore
     @Size(max = 100)
     @Column(name = "alamat_cabang", nullable = false)
     private String alamatCabang;
 
     @NotNull
+    @JsonIgnore
     @Size(max = 20)
     @Column(name = "no_telepon_cabang", nullable = false)
     private String noTeleponCabang;
 
     @NotNull
+    @JsonIgnore
     @Column(name = "ukuran_cabang", nullable = false)
     private Long ukuranCabang;
 
     @NotNull
+    @JsonIgnore
     @Column(name = "status", nullable = false)
     private Long status;
 

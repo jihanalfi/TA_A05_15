@@ -110,32 +110,36 @@ public class CabangController {
         return "viewall-cabang";
     }
 
-    @GetMapping("/kupon/{cabangId}/{itemId}/{kuponId}")
-    public String listKupon(Model model, @PathVariable Long cabangId,@PathVariable Long itemId) {
+
+    @GetMapping("/kupon/{cabangId}/{itemId}")
+    public String pakaiKupon(Model model, @PathVariable Long cabangId,@PathVariable Long itemId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getAuthorities().toString();
         model.addAttribute("role",currentPrincipalName);
         List<CouponDetail> listKupon = couponService.getCoupons();
         CabangModel cabang = cabangService.getCabangById(cabangId);
         ItemCabangModel item = itemCabangService.getItemById(itemId);
+        CouponDetail coupon = new CouponDetail();
+        model.addAttribute("coupon", coupon);
         model.addAttribute("listKupon", listKupon);
         model.addAttribute("cabang",cabang);
         model.addAttribute("item",item);
         return "list-kupon";
     }
 
-    @PostMapping(value="/kupon/{cabangId}/{itemId}/{kuponId}")
-    public void pakaiKupon(@ModelAttribute CouponDetail kupon, @PathVariable Long cabangId,@PathVariable Long itemId,@PathVariable Integer kuponId, BindingResult bindingResult, Model model) {
+    @PostMapping(value="/kupon/{cabangId}/{itemId}")
+    public String pakaiKuponSubmit(@ModelAttribute CouponDetail coupon, @PathVariable Long cabangId,@PathVariable Long itemId, BindingResult bindingResult, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
         ItemCabangModel item = itemCabangService.getItemById(itemId);
-        CouponDetail coupon = couponService.getCouponById(kuponId);
         Long newHarga = item.getHarga()-Math.round(coupon.getDiscountAmount());
         item.setHarga(newHarga);
         item.setId_promo(coupon.getId());
         itemCabangService.addItem(item);
+        return "kupon-acc";
     }
+
 
 
     @GetMapping("/cabang/view/{idCabang}")

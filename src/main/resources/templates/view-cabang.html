@@ -45,7 +45,7 @@
                         <td th:text="${item.nama}"></td>
                         <td th:text="${item.harga}"></td>
                         <td>
-                            <a class="btn btn-outline-dark" href="#">Tambahkan Promo</a>
+                            <a class="btn btn-outline-dark" th:href="@{/kupon/{cabangId}/{itemId}/ (cabangId=${cabang.Id}, itemId=${item.id})}">Tambahkan Promo</a>
                             <br>
                             <a class="btn btn-outline-dark" href="#">Delete</a>
                         </td>
