@@ -3,9 +3,8 @@ package APAP.SIRETAILA0515.controller;
 import APAP.SIRETAILA0515.model.CabangModel;
 import APAP.SIRETAILA0515.model.ItemCabangModel;
 import APAP.SIRETAILA0515.model.UserModel;
-import APAP.SIRETAILA0515.service.CabangService;
-import APAP.SIRETAILA0515.service.ItemCabangService;
-import APAP.SIRETAILA0515.service.UserService;
+import APAP.SIRETAILA0515.rest.ItemRequestDTO;
+import APAP.SIRETAILA0515.service.*;
 import APAP.SIRETAILA0515.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,9 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -33,6 +34,12 @@ public class CabangController {
 
     @Autowired
     private ItemCabangService itemCabangService;
+
+    @Autowired
+    private CabangRestService cabangRestService;
+
+    @Autowired
+    private ItemRequestRestService itemRequestRestService;
 
     @GetMapping("/cabang/add")
     public String addCabangForm(Model model) {
@@ -115,6 +122,50 @@ public class CabangController {
         model.addAttribute("cabang", cabang);
         model.addAttribute("listItem", itemCabang);
         return "view-cabang";
+    }
+
+    private List<ItemRequestDTO> getAllItem(Long idCabang){
+        List<HashMap<String, Object>> listItem = cabangRestService.getAllItem();
+        List<ItemRequestDTO> listItemRequest = new ArrayList<>();
+        for (HashMap<String, Object> item : listItem){
+            ItemRequestDTO itemRequest = new ItemRequestDTO();
+            itemRequest.setUuid(String.valueOf(item.get("uuid")));
+            itemRequest.setNama(String.valueOf(item.get("nama")));
+            itemRequest.setKategori(String.valueOf(item.get("kategori")));
+            itemRequest.setIdCabang(idCabang);
+            listItemRequest.add(itemRequest);
+        }
+        return listItemRequest;
+    }
+
+    @GetMapping(value = "/cabang/{idCabang}/req-update")
+    private String formRequestItemStock(@PathVariable Long idCabang,
+            Model model){
+
+        List<ItemRequestDTO> listItemRequest = getAllItem(idCabang);
+
+        model.addAttribute("itemRequest", new ItemRequestDTO());
+        model.addAttribute("idCabang", idCabang);
+        model.addAttribute("listItemRequest", listItemRequest);
+        return "form-req-itemstock";
+    }
+
+    @PostMapping(value = "/cabang/{idCabang}/req-update")
+    private String requestItemStock(@PathVariable Long idCabang,
+                                    @ModelAttribute("itemRequest") ItemRequestDTO itemRequest,
+                                    Model model){
+//        itemRequest.setUpdateStok(updateStok);
+        List<ItemRequestDTO> listItemRequest = getAllItem(idCabang);
+        Mono<String> itemPost = itemRequestRestService.postRequestUpdateItem(idCabang, itemRequest);
+
+        System.out.println(itemPost);
+
+        model.addAttribute("post", true);
+        model.addAttribute("namaItem", itemRequest.getNama());
+        model.addAttribute("cabang", cabangService.getCabangById(idCabang));
+        model.addAttribute("listItemRequest", listItemRequest);
+        return "form-req-itemstock";
+
     }
 
 //    @GetMapping("/cabang/update/{noCabang}")
