@@ -28,7 +28,7 @@ public class ItemCabangModel implements Serializable {
 //    @Id
     @GeneratedValue(generator = "system-uuid")
     @Column(name = "uuid_item")
-    private UUID uuidItem;
+    private String uuidItem;
 
     @NotNull
     @Size(max = 50)
