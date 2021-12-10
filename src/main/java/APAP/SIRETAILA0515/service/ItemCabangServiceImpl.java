@@ -41,6 +41,11 @@ public class ItemCabangServiceImpl implements ItemCabangService{
     }
 
     @Override
+    public void deleteItem(ItemCabangModel cabangModel){
+        itemCabangDb.delete(cabangModel);
+    }
+
+    @Override
     public ItemCabangModel findByUuidAndCabang(String uuid, CabangModel cabang){
         Optional<ItemCabangModel> item = itemCabangDb.findByUuidItemAndCabang(uuid, cabang);
         if(item.isPresent()){

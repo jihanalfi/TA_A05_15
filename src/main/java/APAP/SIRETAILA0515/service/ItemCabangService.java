@@ -13,4 +13,5 @@ public interface ItemCabangService {
     void addItem(ItemCabangModel item);
 //    ItemCabangModel findByUuid(String uuid);
     void addItemCabang(ItemCabangModel cabangModel);
+    void deleteItem(ItemCabangModel cabangModel);
 }

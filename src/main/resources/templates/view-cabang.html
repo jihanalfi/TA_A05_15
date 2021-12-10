@@ -44,10 +44,10 @@
                         <td th:text="${iter.count}"></td>
                         <td th:text="${item.nama}"></td>
                         <td th:text="${item.harga}"></td>
-                        <td>SS
-                            <a class="btn btn-outline-dark" th:href="@{/kupon/{cabangId}/{itemId}/ (cabangId=${cabang.Id}, itemId=${item.id})}">Tambahkan Promo</a>
+                        <td>
+                            <a class="btn btn-outline-dark" th:unless="${role == '[Staff Cabang]'}" th:href="@{/kupon/{cabangId}/{itemId}/ (cabangId=${cabang.Id}, itemId=${item.id})}">Tambahkan Promo</a>
                             <br>
-                            <a class="btn btn-outline-dark" href="#">Delete</a>
+                            <a class="btn btn-outline-dark"  th:href="@{/cabang/{cabangId}/delete/{itemId}/ (cabangId=${cabang.Id}, itemId=${item.id})}">Hapus Item</a>
                         </td>
                     </tr>
                     </tbody>
