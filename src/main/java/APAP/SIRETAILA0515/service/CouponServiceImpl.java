@@ -1,7 +1,7 @@
 package APAP.SIRETAILA0515.service;
 
 import APAP.SIRETAILA0515.rest.CouponDetail;
-import APAP.SIRETAILA0515.rest.setting;
+import APAP.SIRETAILA0515.rest.Setting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;

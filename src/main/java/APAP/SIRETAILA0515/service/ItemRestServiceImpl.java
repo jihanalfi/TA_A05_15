@@ -49,7 +49,7 @@ public class ItemRestServiceImpl implements ItemRestService  {
                 for (ItemCabangModel x:cabang.getListItemCabang()) {
                     cek = cekContains(listExisting, x.getUuidItem());
                     if (cek){
-                        ItemCabangModel item = itemCabangService.findByUuid(x.getUuidItem());
+                        ItemCabangModel item = itemCabangService.findByUuidAndCabang(x.getUuidItem(),cabang);
                         item.setStok(item.getStok() + x.getStok());
                         Mono<String> post =  reduceItem(x.getStok(), item.getUuidItem());
                         post.block().toString();
