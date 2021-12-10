@@ -1,7 +1,7 @@
 package APAP.SIRETAILA0515.service;
 
 import APAP.SIRETAILA0515.rest.ItemRequestDTO;
-import APAP.SIRETAILA0515.rest.Setting;
+import APAP.SIRETAILA0515.rest.setting;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -15,7 +15,7 @@ public class ItemRequestRestServiceImpl implements ItemRequestRestService {
     private final WebClient webClient;
 
     public ItemRequestRestServiceImpl(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl(Setting.itemRequest).build();
+        this.webClient = webClientBuilder.baseUrl(setting.itemRequest).build();
     }
     @Override
     public Mono<String> postRequestUpdateItem(Long idCabang, ItemRequestDTO itemRequest){
