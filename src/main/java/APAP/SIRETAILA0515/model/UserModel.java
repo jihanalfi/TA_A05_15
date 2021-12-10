@@ -28,11 +28,13 @@ public class UserModel implements Serializable {
     private String id;
 
     @NotNull
+    @JsonIgnore
     @Size(max=50)
     @Column(name="username", nullable = false, unique = true)
     private String username;
 
     @NotNull
+    @JsonIgnore
     @Size(max=50)
     @Column(name="nama", nullable = false)
     private String nama;
@@ -40,6 +42,7 @@ public class UserModel implements Serializable {
 
 
     @NotNull
+    @JsonIgnore
     @Lob
     @Column(name="password", nullable = false)
     private String password;
