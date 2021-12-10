@@ -64,6 +64,7 @@ public class CabangModel implements Serializable {
 
     @OneToMany(mappedBy = "cabang", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private List<ItemCabangModel> listItemCabang;
 
 }
