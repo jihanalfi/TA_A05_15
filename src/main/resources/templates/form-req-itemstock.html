@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>SI-RETAIL</title>
+    <meta charset="UTF-8">
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body style="background-color: #A3D2CA">
+<nav th:replace="fragments/fragment :: navbar('Cabang')"></nav>
+<div class="container">
+    <div class="card m-4 p-4" style="background-color: #F7F3E9">
+        <div class="card-body">
+            <br>
+            <h2>List Item</h2>
+            <br>
+            <p th:if="${post}" th:text="'Anda berhasil melakukan request update stok item ' + ${namaItem} +
+            ' untuk cabang ' + ${cabang.namaCabang}"> </p>
+
+            <div class="col align-self-end">
+                <a class="btn btn-outline-dark" th:href="'/cabang/view/' + ${idCabang}">Back to home</a>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Jumlah Request Update Stok</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item,iter : ${listItemRequest}" >
+                    <form th:action="@{/cabang/} + ${idCabang} + '/req-update'" method="post" th:object="${itemRequest}">
+                        <input type="hidden" name="uuid" th:value="${item.uuid}">
+                        <input type="hidden" name="kategori" th:value="${item.kategori}">
+                        <input type="hidden" name="idCabang" th:value="${item.idCabang}">
+                        <input type="hidden" name="nama" th:value="${item.nama}">
+                        <td th:text="${iter.count}"></td>
+                        <td th:text="${item.nama}"></td>
+                        <td>
+                            <input class="form-control input-sm " type="number" name="updateStok" placeholder="jumlah stok">
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-dark" type="submit">Submit Request</button>
+                        </td>
+                    </form>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
