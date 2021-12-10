@@ -57,7 +57,7 @@ public class CabangModel implements Serializable {
 
     // Relasi dengan UserModel
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "penanggungJawab", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "penanggungjawab", referencedColumnName = "id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel penanggungJawab;
