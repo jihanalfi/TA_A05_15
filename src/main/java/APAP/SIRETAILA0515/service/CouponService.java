@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface CouponService {
     List<CouponDetail> getCoupons();
-//    CouponDetail getCouponById(Integer Id);
+    CouponDetail getCouponById(Integer Id);
 }

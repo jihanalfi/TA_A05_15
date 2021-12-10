@@ -31,6 +31,10 @@ public class ItemCabangServiceImpl implements ItemCabangService{
     }
 
     @Override
+
+    public void addItem(ItemCabangModel item) {
+        itemCabangDb.save(item);
+  
     public void addItemCabang(ItemCabangModel cabangModel){
         itemCabangDb.save(cabangModel);
     }

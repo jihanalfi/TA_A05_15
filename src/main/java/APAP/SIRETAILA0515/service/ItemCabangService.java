@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface ItemCabangService {
     List<ItemCabangModel> retrieveItemByCabang(CabangModel cabang);
     ItemCabangModel getItemById(Long id);
+    void addItem(ItemCabangModel item);
     ItemCabangModel findByUuid(String uuid);
     void addItemCabang(ItemCabangModel cabangModel);
 }

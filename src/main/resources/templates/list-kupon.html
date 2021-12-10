@@ -12,6 +12,10 @@
 <div class="container">
     <h2>Daftar Seluruh Kupon</h2>
     <br>
+    <!--    <form th:action="@{/cabang/} + ${idCabang} + '/coupon/' + ${idItem}" th:object="${coupon}"-->
+    <!--          method="POST">-->
+    <form th:action="@{/kupon/} + ${cabangId} +'/'+ ${itemId}" th:object="${coupon}"
+          method="POST">
     <table class="table">
         <thead>
         <tr>
@@ -29,18 +33,29 @@
             th:style="${iterationStatus.even} ? 'font-weight:bold;'">
             <td th:text="${iterationStatus.count}"></td>
             <td th:text="${kupon.id}"></td>
-            <td th:text="${kupon.couponCode}"></td>
-            <td th:text="${kupon.couponName}"></td>
+            <td th:text="${kupon.coupon_code}"></td>
+            <td th:text="${kupon.coupon_name}"></td>
             <td th:text="${kupon.discountAmount}"></td>
-            <td th:text="${#dates.format(new java.util.Date(kupon.expiryDate), 'EEE, dd MMMM yyyy')}"></td>
+            <td th:text="${kupon.expiryDate}"></td>
             <td>
-                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" th:href="@{/kupon/{cabangId}/{itemId}/{kuponId}/ (cabangId=${cabang.Id}, itemId=${item.Id},kuponId=${kupon.Id})}">Terapkan</a>
-                <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark" th:href="#">Terapkan</a>
+                <div><input class="form-check-input" type="radio" th:field="*{id}"
+                       th:value="${kupon.id}"/>Kupon</div>
+<!--                <div><input class="form-control" type="text"  th:field="*{discountAmount}"-->
+<!--                            th:value="${kupon.discountAmount}" th:text="${kupon.discountAmount}" disabled/></div>-->
+                <div><input class="form-check-input" type="radio" th:field="*{discountAmount}"
+                       th:value="${kupon.discountAmount}"/>Harga</div>
             </td>
+<!--            <td>-->
+<!--                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" type="submit">Terapkan</a>-->
+<!--                <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark" th:href="#">Terapkan</a>-->
+<!--            </td>-->
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-outline-dark" href="/">Home</a>
+        <button class="btn btn-primary" th:if="${role == '[Kepala Retail]'}" type="submit">Terapkan</button>
+        <button class="btn btn-primary" th:if="${role == '[Manager Cabang]'}" type="submit">Terapkan</button>
+        <a class="btn btn-outline-dark" href="/">Home</a>
+    </form>
 </div>
 
 </body>
