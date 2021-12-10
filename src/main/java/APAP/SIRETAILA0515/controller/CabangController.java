@@ -139,6 +139,21 @@ public class CabangController {
         return "list-kupon";
     }
 
+    @GetMapping("/cabang/{cabangId}/delete/{itemId}")
+    public String deleteItem(
+            @PathVariable Long cabangId,@PathVariable Long itemId, Model model
+    ) {
+        CabangModel cabang = cabangService.getCabangById(cabangId);
+        ItemCabangModel item = itemCabangService.getItemById(itemId);
+        String Id = cabang.getId().toString();
+        String namaItem = item.getNama();
+        model.addAttribute("Id",Id);
+        model.addAttribute("namaItem",namaItem);
+        itemCabangService.deleteItem(item);
+        return "delete-item";
+
+    }
+
     @PostMapping(value="/kupon/{cabangId}/{itemId}")
     public String pakaiKuponSubmit(@ModelAttribute CouponDetail coupon, @PathVariable Long cabangId,@PathVariable Long itemId, BindingResult bindingResult, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
