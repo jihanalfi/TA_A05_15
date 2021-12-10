@@ -17,9 +17,7 @@
             <p th:if="${post}" th:text="'Anda berhasil melakukan request update stok item ' + ${namaItem} +
             ' untuk cabang ' + ${cabang.namaCabang}"> </p>
 
-            <div class="col align-self-end">
-                <a class="btn btn-outline-dark" th:href="'/cabang/view/' + ${idCabang}">Back to home</a>
-            </div>
+            <a class="btn btn-outline-dark" th:href="'/cabang/view/' + ${idCabang}">Back to detail cabang</a>
             <table class="table">
                 <thead>
                 <tr>

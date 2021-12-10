@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>SI-RETAIL</title>
+    <meta charset="UTF-8">
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body style="background-color: #A3D2CA">
+<nav th:replace="fragments/fragment :: navbar('Cabang')"></nav>
+<div class="container">
+    <div class="card m-4 p-4" style="background-color: #F7F3E9">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Tambah Item Pada Cabang SI-RETAIL</h2>
+                <br>
+
+                <form th:action="@{/cabang/addItem/} + ${idCabang}" th:object="${cabang}" method="POST">
+                    <input type="hidden" th:field="*{id}" />
+                    <div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-outline-dark" name="addRow">+ Tambah Item</button>
+                        </div>
+                        <div th:each="item, iterationStatus : *{listItemCabang}" class="border border-info mb-2 p-2">
+                            <div>
+                            Item : <br>
+                            <select name="uuidItem" th:field="*{listItemCabang[__${iterationStatus.index}__].uuidItem}" class="form-control">
+                                <option selected disabled value="" hidden> -- Pilih Item -- </option>
+                                <div th:each="listItemEx, iterationStatus2 : ${listItem}" class="form-select">
+                                    <option th:value="${listItemEx.uuid}"  th:text="${listItemEx.nama}"></option>
+                                </div>
+                            </select>
+                            </div>
+                            <div>
+                            Kuantitas : <br>
+                            <input th:field="*{listItemCabang[__${iterationStatus.index}__].stok}" th:value="*{listItemCabang[__${iterationStatus.index}__].stok}" required class="form-control" type="text" name="stok"/>
+                            <br>
+                            </div>
+                            <div class="mb-3">
+                            <button type="submit" class="btn btn-outline-danger" name="deleteRow" th:value="${iterationStatus.index}">Hapus</button>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-outline-dark" name="save">Submit</button>
+                            <button class="btn"><a class="text-muted" href="/">Cancel</a></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

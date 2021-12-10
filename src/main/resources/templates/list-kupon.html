@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>SI-RETAIL</title>
+    <meta charset="UTF-8">
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body style="background-color: #A3D2CA">
+<nav th:replace="fragments/fragment :: navbar('Cabang')"></nav>
+<div class="container">
+    <h2>Daftar Seluruh Kupon</h2>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Id Kupon</th>
+            <th>Kode Kupon</th>
+            <th>Nama Kupon</th>
+            <th>Jumlah Diskon</th>
+            <th>Tanggal Expired</th>
+            <th th:unless="${role == '[Staff Cabang]'}" >Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="kupon, iterationStatus : ${listKupon}"
+            th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${kupon.id}"></td>
+            <td th:text="${kupon.couponCode}"></td>
+            <td th:text="${kupon.couponName}"></td>
+            <td th:text="${kupon.discountAmount}"></td>
+            <td th:text="${#dates.format(new java.util.Date(kupon.expiryDate), 'EEE, dd MMMM yyyy')}"></td>
+            <td>
+                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" th:href="@{/kupon/{cabangId}/{itemId}/{kuponId}/ (cabangId=${cabang.Id}, itemId=${item.Id},kuponId=${kupon.Id})}">Terapkan</a>
+                <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark" th:href="#">Terapkan</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-outline-dark" href="/">Home</a>
+</div>
+
+</body>
+
+</html>

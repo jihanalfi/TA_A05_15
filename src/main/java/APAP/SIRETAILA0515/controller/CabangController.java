@@ -124,25 +124,11 @@ public class CabangController {
         return "view-cabang";
     }
 
-    private List<ItemRequestDTO> getAllItem(Long idCabang){
-        List<HashMap<String, Object>> listItem = cabangRestService.getAllItem();
-        List<ItemRequestDTO> listItemRequest = new ArrayList<>();
-        for (HashMap<String, Object> item : listItem){
-            ItemRequestDTO itemRequest = new ItemRequestDTO();
-            itemRequest.setUuid(String.valueOf(item.get("uuid")));
-            itemRequest.setNama(String.valueOf(item.get("nama")));
-            itemRequest.setKategori(String.valueOf(item.get("kategori")));
-            itemRequest.setIdCabang(idCabang);
-            listItemRequest.add(itemRequest);
-        }
-        return listItemRequest;
-    }
-
     @GetMapping(value = "/cabang/{idCabang}/req-update")
     private String formRequestItemStock(@PathVariable Long idCabang,
             Model model){
 
-        List<ItemRequestDTO> listItemRequest = getAllItem(idCabang);
+        List<ItemRequestDTO> listItemRequest = cabangRestService.getAllItem(idCabang);
 
         model.addAttribute("itemRequest", new ItemRequestDTO());
         model.addAttribute("idCabang", idCabang);
@@ -155,7 +141,7 @@ public class CabangController {
                                     @ModelAttribute("itemRequest") ItemRequestDTO itemRequest,
                                     Model model){
 //        itemRequest.setUpdateStok(updateStok);
-        List<ItemRequestDTO> listItemRequest = getAllItem(idCabang);
+        List<ItemRequestDTO> listItemRequest = cabangRestService.getAllItem(idCabang);
         Mono<String> itemPost = itemRequestRestService.postRequestUpdateItem(idCabang, itemRequest);
 
         System.out.println(itemPost);
