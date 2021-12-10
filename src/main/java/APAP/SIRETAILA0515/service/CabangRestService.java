@@ -11,4 +11,5 @@ public interface CabangRestService {
 
     List<ItemRequestDTO> getAllItem(Long idCabang);
 
+    CabangModel createCabang(CabangModel cabang);
 }

@@ -4,6 +4,7 @@ import APAP.SIRETAILA0515.model.CabangModel;
 import APAP.SIRETAILA0515.repository.CabangDb;
 import APAP.SIRETAILA0515.rest.ItemRequestDTO;
 import APAP.SIRETAILA0515.rest.setting;
+import APAP.SIRETAILA0515.rest.CabangDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -49,6 +50,10 @@ public class CabangRestServiceImpl implements CabangRestService {
         }
         return listItemRequest;    }
 
-
+    @Override
+    public CabangModel createCabang(CabangDTO cabang){
+        CabangModel newcabang = cabang.convertToCabang();
+        return cabangDb.save(newcabang);
+    }
 
 }
