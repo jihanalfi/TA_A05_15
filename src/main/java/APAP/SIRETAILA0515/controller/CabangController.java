@@ -116,9 +116,24 @@ public class CabangController {
     public String listCabang(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getAuthorities().toString();
+        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
+        String namaPengguna = authentication.getName();
         model.addAttribute("role",currentPrincipalName);
-        List<CabangModel> listCabang = cabangService.getCabangList();
-        model.addAttribute("listCabang", listCabang);
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+            List<CabangModel> listCabang = cabangService.getCabangList();
+            model.addAttribute("listCabang", listCabang);
+            return "viewall-cabang";
+        } else if (currentPrincipalName.equals("[Manager Cabang]")) {
+            List<CabangModel> listCabangBefore = cabangService.getCabangList();
+            List<CabangModel> listCabang = new ArrayList<CabangModel>();
+            for (CabangModel c:listCabangBefore) {
+                if (c.getPenanggungJawab().getUsername().equals(namaPengguna)){
+                    listCabang.add(c);
+                }
+            }
+            model.addAttribute("listCabang", listCabang);
+            return "viewall-cabang";
+        }
         return "viewall-cabang";
     }
 
