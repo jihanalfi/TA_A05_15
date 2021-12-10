@@ -29,8 +29,7 @@ public class ItemCabangServiceImpl implements ItemCabangService{
     public ItemCabangModel getItemById(Long Id){
         return itemCabangDb.getById(Id);
     }
-
-
+  
     @Override
     public void addItem(ItemCabangModel item) {
         itemCabangDb.save(item);
@@ -42,8 +41,8 @@ public class ItemCabangServiceImpl implements ItemCabangService{
     }
 
     @Override
-    public ItemCabangModel findByUuid(String uuid){
-        Optional<ItemCabangModel> item = itemCabangDb.findByUuidItem(uuid);
+    public ItemCabangModel findByUuidAndCabang(String uuid, CabangModel cabang){
+        Optional<ItemCabangModel> item = itemCabangDb.findByUuidItemAndCabang(uuid, cabang);
         if(item.isPresent()){
             return item.get();
         } else {

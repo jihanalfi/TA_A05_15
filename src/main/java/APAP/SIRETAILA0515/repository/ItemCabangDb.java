@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface ItemCabangDb extends JpaRepository<ItemCabangModel, Long> {
     List<ItemCabangModel> findAllByCabang(CabangModel cabang);
-    Optional<ItemCabangModel> findByUuidItem(String uuid);
+    Optional<ItemCabangModel> findByUuidItemAndCabang(String uuid, CabangModel cabang);
 }
