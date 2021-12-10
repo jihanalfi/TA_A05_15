@@ -55,5 +55,6 @@ public class UserModel implements Serializable {
     @OneToMany(mappedBy = "penanggungJawab", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CabangModel> ListCabang;
 
+
 }
 
