@@ -3,9 +3,12 @@ package APAP.SIRETAILA0515.controller;
 import APAP.SIRETAILA0515.model.CabangModel;
 import APAP.SIRETAILA0515.model.ItemCabangModel;
 import APAP.SIRETAILA0515.model.UserModel;
+import APAP.SIRETAILA0515.rest.CouponDetail;
+import APAP.SIRETAILA0515.rest.ItemDetail;
 import APAP.SIRETAILA0515.rest.ItemRequestDTO;
 import APAP.SIRETAILA0515.service.*;
 import APAP.SIRETAILA0515.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -24,10 +27,17 @@ import java.util.List;
 
 @Controller
 public class CabangController {
+    @Qualifier("itemRestServiceImpl")
+    @Autowired
+    private ItemRestService itemRestService;
+
     @Qualifier("cabangServiceImpl")
 
     @Autowired
     private CabangService cabangService;
+
+    @Autowired
+    private CouponService couponService;
 
     @Autowired
     private UserService userService;
@@ -60,15 +70,17 @@ public class CabangController {
     public String addCabangSubmit(@ModelAttribute CabangModel cabang, BindingResult bindingResult, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        UserModel penanggungJawab = userService.findUserbyName(currentPrincipalName);
+        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
         int i=2;
         long status = i;
-        cabang.setPenanggungJawab(penanggungJawab);
+
+        cabang.setPenanggungJawab(penanggung_jawab);
         cabang.setStatus(status);
         cabangService.addCabang(cabang);
         model.addAttribute("Id",cabang.getId());
         return "add-cabang";
     }
+
 //
 //    @PostMapping(value="/cabang/add", params={"addRow"})
 //    public String addRow(
@@ -111,6 +123,33 @@ public class CabangController {
         return "viewall-cabang";
     }
 
+    @GetMapping("/kupon/viewall")
+    public String listKupon(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        model.addAttribute("role",currentPrincipalName);
+        List<CouponDetail> listKupon = couponService.getCoupons();
+        model.addAttribute("listKupon", listKupon);
+        return "list-kupon";
+    }
+
+//    @PostMapping(value="/kupon/{cabangId}/{ItemId}/{kuponId}")
+//    public void pakaiKupon(@ModelAttribute CouponDetail kupon, @PathVariable Long cabangId,@PathVariable Integer itemId,@PathVariable Long kuponId,BindingResult bindingResult, Model model) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
+//        ItemCabangModel item = itemCabangService.getItemById(cabangId);
+//        CouponDetail kupon =
+//        int i=2;
+//        long status = i;
+//        cabang.setPenanggungJawab(penanggung_jawab);
+//        cabang.setStatus(status);
+//        cabangService.addCabang(cabang);
+//        model.addAttribute("Id",cabang.getId());
+//        return "add-cabang";
+//    }
+
+
     @GetMapping("/cabang/view/{idCabang}")
     public String viewDetailCabang(
             @PathVariable Long idCabang,
@@ -123,6 +162,90 @@ public class CabangController {
         model.addAttribute("listItem", itemCabang);
         return "view-cabang";
     }
+
+    @GetMapping("/cabang/addItem/{idCabang}")
+    public String addItemCabang (@PathVariable Long idCabang, Model model) throws JsonProcessingException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        CabangModel cabang = cabangService.getCabangById(idCabang);
+        List<ItemDetail> listItem =  itemRestService.getListItem();
+        List<ItemCabangModel> listItemCabang = new ArrayList<>();
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+
+            cabang.setListItemCabang(listItemCabang);
+            cabang.getListItemCabang().add(new ItemCabangModel());
+
+            model.addAttribute("idCabang", idCabang);
+            model.addAttribute("listItem", listItem);
+            model.addAttribute("cabang", cabang);
+
+            return "form-add-item";
+        } else if (currentPrincipalName.equals("[Manager Cabang]")) {
+            UserModel user = userService.findUserbyUsername(authentication.getName().toString());
+            if (cabang.getPenanggungJawab().equals(user)){
+
+                cabang.setListItemCabang(listItemCabang);
+                cabang.getListItemCabang().add(new ItemCabangModel());
+
+                model.addAttribute("idCabang", idCabang);
+                model.addAttribute("listItem", listItem);
+                model.addAttribute("cabang", cabang);
+
+                return "form-add-item";
+            }
+
+        }
+        return "Access-DeniedItem";
+
+
+    }
+
+    @PostMapping(value="/cabang/addItem/{idCabang}", params={"addRow"})
+    public String addRowItem(@PathVariable Long idCabang, @ModelAttribute CabangModel cabang, Model model) throws JsonProcessingException {
+        if (cabang.getListItemCabang() == null || cabang.getListItemCabang().size() == 0){
+            cabang.setListItemCabang(new ArrayList<>());
+        }
+        List<ItemDetail> listItem =  itemRestService.getListItem();
+        cabang.getListItemCabang().add(new ItemCabangModel());
+        model.addAttribute("idCabang", idCabang);
+        model.addAttribute("listItem", listItem);
+        model.addAttribute("cabang", cabang);
+        return "form-add-item";
+    }
+
+    @PostMapping(value="/cabang/addItem/{idCabang}", params={"deleteRow"})
+    public String deleteRowItem(@PathVariable Long idCabang, @RequestParam("deleteRow") Integer row, @ModelAttribute CabangModel cabang, Model model) throws JsonProcessingException {
+        final Integer indexRow = Integer.valueOf(row);
+        cabang.getListItemCabang().remove(indexRow.intValue());
+        List<ItemDetail> listItem =  itemRestService.getListItem();
+        model.addAttribute("idCabang", idCabang);
+        model.addAttribute("listItem", listItem);
+        model.addAttribute("cabang", cabang);
+
+        return "form-add-item";
+    }
+
+    @PostMapping(value="/cabang/addItem/{idCabang}", params={"save"})
+    public String saveItem(@PathVariable Long idCabang, @ModelAttribute CabangModel cabang, Model model) throws JsonProcessingException {
+
+        Boolean cek = itemRestService.cekStokItem(cabang.getListItemCabang());
+
+        if(cek == true){
+            CabangModel cabangLast = cabangService.getCabangById(idCabang);
+            List<ItemCabangModel> listItemCabang = cabangLast.getListItemCabang();
+            cabangLast.setListItemCabang(cabang.getListItemCabang());
+            itemRestService.addItemToCabang(cabangLast, listItemCabang);
+            return "addItemSuccess";
+        } else {
+            model.addAttribute("id", idCabang);
+            return "outOfStok";
+        }
+
+
+
+    }
+
+
 
     @GetMapping(value = "/cabang/{idCabang}/req-update")
     private String formRequestItemStock(@PathVariable Long idCabang,
