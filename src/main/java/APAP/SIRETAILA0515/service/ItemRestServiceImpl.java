@@ -46,26 +46,26 @@ public class ItemRestServiceImpl implements ItemRestService  {
     public void addItemToCabang(CabangModel cabang,List<ItemCabangModel> listExisting){
         Boolean cek = false;
         if (listExisting.size() != 0){
-                for (ItemCabangModel x:cabang.getListItemCabang()) {
-                    cek = cekContains(listExisting, x.getUuidItem());
-                    if (cek){
-                        ItemCabangModel item = itemCabangService.findByUuid(x.getUuidItem());
-                        item.setStok(item.getStok() + x.getStok());
-                        Mono<String> post =  reduceItem(x.getStok(), item.getUuidItem());
-                        post.block().toString();
-                        itemCabangService.addItemCabang(item);
-                    } else {
+            for (ItemCabangModel x:cabang.getListItemCabang()) {
+                cek = cekContains(listExisting, x.getUuidItem());
+                if (cek){
+                    ItemCabangModel item = itemCabangService.findByUuidAndCabang(x.getUuidItem(),cabang);
+                    item.setStok(item.getStok() + x.getStok());
+                    Mono<String> post =  reduceItem(x.getStok(), item.getUuidItem());
+                    post.block().toString();
+                    itemCabangService.addItemCabang(item);
+                } else {
 
-                        ItemDetail item = getItemByUuid(x.getUuidItem());
-                        x.setCabang(cabang);
-                        x.setNama(item.getNama());
-                        x.setHarga(item.getHarga());
-                        x.setKategori(item.getKategori());
-                        Mono<String> post =  reduceItem(x.getStok(), x.getUuidItem());
-                        post.block().toString();
-                        itemCabangService.addItemCabang(x);
-                    }
+                    ItemDetail item = getItemByUuid(x.getUuidItem());
+                    x.setCabang(cabang);
+                    x.setNama(item.getNama());
+                    x.setHarga(item.getHarga());
+                    x.setKategori(item.getKategori());
+                    Mono<String> post =  reduceItem(x.getStok(), x.getUuidItem());
+                    post.block().toString();
+                    itemCabangService.addItemCabang(x);
                 }
+            }
 
         } else {
             for (ItemCabangModel x:cabang.getListItemCabang()) {
@@ -109,7 +109,7 @@ public class ItemRestServiceImpl implements ItemRestService  {
     public Boolean cekStokItem(List<ItemCabangModel> list){
         Boolean cek = true;
         for (ItemCabangModel x:list
-             ) {
+        ) {
             ItemDetail item = getItemByUuid(x.getUuidItem());
             if (x.getStok() <= item.getStok()){
                 cek = true;
@@ -122,7 +122,7 @@ public class ItemRestServiceImpl implements ItemRestService  {
 
     public Boolean cekContains(List<ItemCabangModel> listExisting, String uuid){
         for (ItemCabangModel x:listExisting
-             ) {
+        ) {
             if (x.getUuidItem().equals(uuid)){
                 return true;
             }
