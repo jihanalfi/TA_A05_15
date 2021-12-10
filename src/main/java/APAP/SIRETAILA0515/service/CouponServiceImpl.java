@@ -1,8 +1,9 @@
 package APAP.SIRETAILA0515.service;
 
 import APAP.SIRETAILA0515.rest.CouponDetail;
-import APAP.SIRETAILA0515.rest.Setting;
+import APAP.SIRETAILA0515.rest.setting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -27,20 +28,9 @@ public class CouponServiceImpl implements CouponService {
         this.webClient = webClientBuilder.baseUrl(setting.Coupon).build();
     }
 
-    @Override
-    public List<CouponDetail> getCoupons() {
-                Flux<CouponDetail> coupon = this.webClient.get().uri("/api/coupon")
-                .retrieve()
-                .bodyToFlux(CouponDetail.class);
-//        return this.webClient.get().uri("api/coupon")
-//                .retrieve()
-//                .bodyToMono(CouponDetail.class);
-        return coupon.collectList().block();
-    }
-
 //    @Override
-//    public CouponDetail getCoupons() {
-//        Flux<CouponDetail> coupon = this.webClient.get().uri("/api/coupon")
+//    public List<CouponDetail> getCoupons() {
+//                Flux<CouponDetail> coupon = this.webClient.get().uri("/api/coupon")
 //                .retrieve()
 //                .bodyToFlux(CouponDetail.class);
 ////        return this.webClient.get().uri("api/coupon")
@@ -48,6 +38,26 @@ public class CouponServiceImpl implements CouponService {
 ////                .bodyToMono(CouponDetail.class);
 //        return coupon.collectList().block();
 //    }
+
+    @Override
+    public List<CouponDetail> getCoupons() {
+        List<CouponDetail> coupon = this.webClient.get().uri("/api/coupon")
+                .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML)
+                .retrieve()
+                .bodyToMono(List.class)
+                .block();
+        return coupon;
+    }
+
+    @Override
+    public CouponDetail getCouponById(Integer Id) {
+        CouponDetail coupon = this.webClient.get().uri("/api/coupon/{Id}")
+                .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML)
+                .retrieve()
+                .bodyToMono(CouponDetail.class)
+                .block();
+        return coupon;
+    }
 
 
 }
