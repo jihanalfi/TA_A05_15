@@ -25,7 +25,6 @@
                 <p th:text="'Status : Ditolak'" th:if="${cabang.status == 1}"></p>
                 <p th:text="'Status : Disetujui'" th:if="${cabang.status == 2}"></p>
                 <p th:text="'Ukuran : ' + ${cabang.ukuranCabang}"></p>
-                <p th:text="'Penanggung Jawab : ' + ${nama}"></p>
                 <br>
                 <h4>Daftar Item: </h4>
                 <a class="btn btn-outline-dark" th:href="@{/cabang/addItem/} + ${cabang.id}">+ Tambah Item</a>
