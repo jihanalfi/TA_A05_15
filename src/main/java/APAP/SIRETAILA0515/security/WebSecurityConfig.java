@@ -33,13 +33,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Bean
     public BCryptPasswordEncoder encoder(){return new BCryptPasswordEncoder();}
 
-     @Autowired
-     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-         auth.inMemoryAuthentication()
-         .passwordEncoder(encoder())
-         .withUser("userNih").password(encoder().encode("user123"))
-         .roles("USER");
-     }
+//      @Autowired
+//      public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+//          auth.inMemoryAuthentication()
+//          .passwordEncoder(encoder())
+//          .withUser("userNih").password(encoder().encode("user123"))
+//          .roles("USER");
+//      }
 
     @Autowired
     private UserDetailsService userDetailsService;

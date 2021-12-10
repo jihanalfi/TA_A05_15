@@ -3,8 +3,10 @@ package APAP.SIRETAILA0515.service;
 //import APAP.SIRETAILA0515.model.CabangModel;
 import APAP.SIRETAILA0515.model.UserModel;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 public interface UserService {
     UserModel addUser(UserModel user);
     public String encrypt(String password);
