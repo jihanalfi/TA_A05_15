@@ -1,5 +1,6 @@
 package APAP.SIRETAILA0515.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,19 +32,23 @@ public class ItemCabangModel implements Serializable {
     private String uuidItem;
 
     @NotNull
+    @JsonIgnore
     @Size(max = 50)
     @Column(name = "nama",nullable = false)
     private String nama;
 
     @NotNull
+    @JsonIgnore
     @Column(name = "harga", nullable = false)
     private Long harga;
 
     @NotNull
+    @JsonIgnore
     @Column(name = "stok",  nullable = false)
     private Long stok;
 
     @NotNull
+    @JsonIgnore
     @Column(name = "kategori", nullable = false)
     private String kategori;
 
