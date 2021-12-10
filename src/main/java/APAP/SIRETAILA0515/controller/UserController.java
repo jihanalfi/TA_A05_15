@@ -29,12 +29,12 @@ public class UserController {
         List<RoleModel> listRole = roleService.findAll();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getAuthorities().toString();
-        if (currentPrincipalName.equals("[Kepala Retail]")) {
+//         if (currentPrincipalName.equals("[Kepala Retail]")) {
             model.addAttribute("user", user);
             model.addAttribute("listRole", listRole);
             return "form-add-user";
-        }
-        return "Access-Denied";
+//         }
+//         return "Access-Denied";
     }
 
     @PostMapping(value = "/add")
