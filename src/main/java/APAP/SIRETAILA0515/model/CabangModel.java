@@ -34,7 +34,6 @@ public class CabangModel implements Serializable {
     private String namaCabang;
 
     @NotNull
-    @JsonIgnore
     @Size(max = 100)
     @Column(name = "alamat_cabang", nullable = false)
     private String alamatCabang;
