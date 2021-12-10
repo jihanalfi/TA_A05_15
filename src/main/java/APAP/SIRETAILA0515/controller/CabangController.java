@@ -161,12 +161,7 @@ public class CabangController {
     ) {
         CabangModel cabang = cabangService.getCabangById(idCabang);
         List<ItemCabangModel> itemCabang = itemCabangService.retrieveItemByCabang(cabang);
-        UserModel pj = cabang.getPenanggungJawab();
-        String nama = pj.getNama();
-        System.out.println(pj);
-        System.out.println(pj.getId());
-        System.out.println(nama);
-        model.addAttribute("nama", nama);
+
         model.addAttribute("cabang", cabang);
         model.addAttribute("listItem", itemCabang);
         return "view-cabang";

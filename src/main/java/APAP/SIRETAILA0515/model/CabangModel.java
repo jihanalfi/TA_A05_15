@@ -56,7 +56,7 @@ public class CabangModel implements Serializable {
     private Long status;
 
     // Relasi dengan UserModel
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "penanggungjawab", referencedColumnName = "id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore

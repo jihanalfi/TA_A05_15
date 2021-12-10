@@ -2,10 +2,8 @@ package APAP.SIRETAILA0515.service;
 
 import APAP.SIRETAILA0515.model.CabangModel;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
 public interface CabangService {
     void addCabang(CabangModel cabang);
 
