@@ -34,7 +34,6 @@ public class CabangModel implements Serializable {
     private String namaCabang;
 
     @NotNull
-    @JsonIgnore
     @Size(max = 100)
     @Column(name = "alamat_cabang", nullable = false)
     private String alamatCabang;
@@ -56,14 +55,15 @@ public class CabangModel implements Serializable {
     private Long status;
 
     // Relasi dengan UserModel
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "penanggungJawab", referencedColumnName = "id", nullable = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "penanggungjawab", referencedColumnName = "id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel penanggungJawab;
 
     @OneToMany(mappedBy = "cabang", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private List<ItemCabangModel> listItemCabang;
 
 }

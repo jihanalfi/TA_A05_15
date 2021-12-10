@@ -25,11 +25,10 @@
                 <p th:text="'Status : Ditolak'" th:if="${cabang.status == 1}"></p>
                 <p th:text="'Status : Disetujui'" th:if="${cabang.status == 2}"></p>
                 <p th:text="'Ukuran : ' + ${cabang.ukuranCabang}"></p>
-                <p th:text="'Penanggung Jawab : ' + ${nama}"></p>
                 <br>
                 <h4>Daftar Item: </h4>
                 <a class="btn btn-outline-dark" th:href="@{/cabang/addItem/} + ${cabang.id}">+ Tambah Item</a>
-
+                <a class="btn btn-outline-dark" th:href="'/cabang/' + ${cabang.id} + '/req-update'">+ Request Update Stock</a>
                 <table class="table">
                     <thead>
                     <tr>
@@ -45,7 +44,7 @@
                         <td th:text="${item.nama}"></td>
                         <td th:text="${item.harga}"></td>
                         <td>
-                            <a class="btn btn-outline-dark" th:unless="${role == '[Staff Cabang]'}" th:href="@{/kupon/{cabangId}/{itemId}/ (cabangId=${cabang.Id}, itemId=${item.id})}">Tambahkan Promo</a>
+                            <a class="btn btn-outline-dark" th:href="@{/kupon/{cabangId}/{itemId}/ (cabangId=${cabang.Id}, itemId=${item.id})}">Tambahkan Promo</a>
                             <br>
                             <a class="btn btn-outline-dark"  th:href="@{/cabang/{cabangId}/delete/{itemId}/ (cabangId=${cabang.Id}, itemId=${item.id})}">Hapus Item</a>
                         </td>
