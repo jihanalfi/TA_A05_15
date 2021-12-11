@@ -311,23 +311,37 @@ public class CabangController {
 
     }
 
-//    @GetMapping("/cabang/update/{noCabang}")
-//    public String updateCabangForm(
-//            @PathVariable Long noCabang,
-//            Model model
-//    ) {
-//        CabangModel cabang = cabangService.getCabangByNoCabang(noCabang);
-//        model.addAttribute("cabang", cabang);
-//        return "form-update-cabang";
-//    }
-//
-//    @PostMapping("/cabang/update")
-//    public String updateCabangSubmit(
-//            @ModelAttribute CabangModel cabang,
-//            Model model
-//    ) {
-//        cabangService.updateCabang(cabang);
-//        model.addAttribute("noCabang", cabang.getNoCabang());
-//        return "update-cabang";
-//    }
+    @GetMapping("/cabang/update/{noCabang}")
+    public String updateCabangForm(
+            @PathVariable Long noCabang,
+            Model model
+
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        CabangModel cabang = cabangService.getCabangByNoCabang(noCabang);
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+            model.addAttribute("cabang", cabang);
+            return "form-update-cabang";
+        }
+        else if (currentPrincipalName.equals("[Manager Cabang]")) {
+            UserModel user = userService.findUserbyUsername(authentication.getName().toString());
+            if (cabang.getPenanggungJawab().equals(user)) {
+                model.addAttribute("cabang", cabang);
+                return "form-update-cabang";
+            }
+        }
+        return "Access-DeniedItem";
+
+    }
+
+    @PostMapping("/cabang/update")
+    public String updateCabangSubmit(
+            @ModelAttribute CabangModel cabang,
+            Model model
+    ) {
+        cabangService.updateCabang(cabang);
+        model.addAttribute("noCabang", cabang.getId());
+        return "update-cabang";
+    }
 }

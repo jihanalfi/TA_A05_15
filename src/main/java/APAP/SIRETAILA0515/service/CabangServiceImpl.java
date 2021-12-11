@@ -46,4 +46,13 @@ public class CabangServiceImpl implements CabangService {
         return null;
     }
 
+    @Override
+    public CabangModel getCabangByNoCabang(Long noCabang){
+        Optional<CabangModel> cabang= cabangDb.findById(noCabang);
+        if(cabang.isPresent()){
+            return cabang.get();
+        }
+        return null;
+    }
+
 }
