@@ -32,6 +32,7 @@ public class CabangServiceImpl implements CabangService {
         cabangDb.delete(cabang);
     }
 
+
     @Override
     public List<CabangModel> getCabangList() {
         return cabangDb.findAll(Sort.by(Sort.Direction.ASC, "namaCabang"));

@@ -344,4 +344,20 @@ public class CabangController {
         model.addAttribute("noCabang", cabang.getId());
         return "update-cabang";
     }
+
+    @GetMapping("/cabang/delete/{noCabang}")
+    public String deleteCabang(
+            @PathVariable Long noCabang,
+            Model model
+    ) {
+        CabangModel cabang = cabangService.getCabangByNoCabang(noCabang);
+        if (cabang.getListItemCabang().isEmpty()) {
+            model.addAttribute("cabang",cabang);
+            cabangService.deleteCabang(cabang);
+            return "delete-cabang";
+        }
+
+        return "Access-DeniedDeleteCabang";
+    }
+
 }
