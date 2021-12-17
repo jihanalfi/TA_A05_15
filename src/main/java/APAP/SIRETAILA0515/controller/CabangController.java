@@ -126,7 +126,9 @@ public class CabangController {
         } else if (currentPrincipalName.equals("[Manager Cabang]")) {
             List<CabangModel> listCabangBefore = cabangService.getCabangList();
             List<CabangModel> listCabang = new ArrayList<CabangModel>();
+//            System.out.println(namaPengguna);
             for (CabangModel c:listCabangBefore) {
+//                System.out.println(c.getPenanggungJawab().getUsername());
                 if (c.getPenanggungJawab().getUsername().equals(namaPengguna)){
                     listCabang.add(c);
                 }
@@ -136,6 +138,7 @@ public class CabangController {
         }
         return "viewall-cabang";
     }
+
 
 
     @GetMapping("/kupon/{cabangId}/{itemId}")
