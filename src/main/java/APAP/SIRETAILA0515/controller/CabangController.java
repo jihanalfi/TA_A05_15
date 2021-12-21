@@ -156,7 +156,6 @@ public class CabangController {
         model.addAttribute("item",item);
         return "list-kupon";
     }
-
     @GetMapping("/cabang/{cabangId}/delete/{itemId}")
     public String deleteItem(
             @PathVariable Long cabangId,@PathVariable Long itemId, Model model
