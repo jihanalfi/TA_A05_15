@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>SI-RETAIL</title>
+  <meta charset="UTF-8">
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body style="background-color: #A3D2CA">
+<nav th:replace="fragments/fragment :: navbar('Home')"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Update Cabang SI-RETAIL</h2>
+        <br>
+        <form th:action="@{/cabang/update}" th:object="${cabang}" method="POST">
+          <input type="hidden" th:field="*{Id}" />
+
+          Nama Cabang : <br>
+          <input class="form-control" type="text" name="namaCabang" th:value="*{namaCabang}"/>
+          <br><br>
+
+          Alamat : <br>
+          <input class="form-control" type="text" name="alamatCabang" th:value="*{alamatCabang}"/>
+          <br><br>
+
+          Nomor Telepon : <br>
+          <input class="form-control" type="text" name="noTeleponCabang" th:value="*{noTeleponCabang}"/>
+          <br><br>
+
+          Ukuran Cabang (M)
+          <br>
+          <input th:value="*{ukuranCabang}" required class="form-control" type="number" name="ukuranCabang"/>
+          <br><br>
+
+          <br>
+          <input class="form-control" type="hidden" name="status" th:value="*{status}"/>
+          <br><br>
+
+
+
+          <button class="btn btn-primary" type="submit">Submit</button>
+          <a class="btn btn-primary" href="/cabang/viewall">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

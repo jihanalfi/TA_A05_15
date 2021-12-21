@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface CabangDb extends JpaRepository<CabangModel, Long> {
     List<CabangModel> findCabangModelsByStatusEquals(Long status);
+    Optional<CabangModel> findById(Long Id);
 }

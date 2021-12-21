@@ -14,4 +14,6 @@ public interface CabangService {
     List<CabangModel> getCabangList();
 
     CabangModel getCabangById(Long Id);
+
+    CabangModel getCabangByNoCabang(Long noCabangq);
 }

@@ -32,6 +32,7 @@ public class CabangServiceImpl implements CabangService {
         cabangDb.delete(cabang);
     }
 
+
     @Override
     public List<CabangModel> getCabangList() {
         return cabangDb.findAll(Sort.by(Sort.Direction.ASC, "namaCabang"));
@@ -41,6 +42,15 @@ public class CabangServiceImpl implements CabangService {
     public CabangModel getCabangById(Long Id) {
         Optional<CabangModel> cabang = cabangDb.findById(Id);
         if (cabang.isPresent()) {
+            return cabang.get();
+        }
+        return null;
+    }
+
+    @Override
+    public CabangModel getCabangByNoCabang(Long noCabang){
+        Optional<CabangModel> cabang= cabangDb.findById(noCabang);
+        if(cabang.isPresent()){
             return cabang.get();
         }
         return null;
