@@ -371,6 +371,13 @@ public class CabangController {
             @ModelAttribute CabangModel cabang,
             Model model
     ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
+        int i=2;
+        long status = i;
+        cabang.setPenanggungJawab(penanggung_jawab);
+        cabang.setStatus(status);
         cabangService.updateCabang(cabang);
         model.addAttribute("noCabang", cabang.getId());
         return "update-cabang";
