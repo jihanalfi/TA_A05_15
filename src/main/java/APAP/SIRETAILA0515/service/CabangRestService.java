@@ -10,6 +10,8 @@ import java.util.List;
 public interface CabangRestService {
     List<CabangModel> retrieveListCabang();
 
+    List<CabangModel> retrieveListRequestCabang();
+
     List<ItemRequestDTO> getAllItem(Long idCabang);
 
     CabangModel createCabang(CabangDTO cabang);

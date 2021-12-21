@@ -32,6 +32,11 @@ public class CabangRestServiceImpl implements CabangRestService {
     }
 
     @Override
+    public List<CabangModel> retrieveListRequestCabang(){
+        return cabangDb.findCabangModelsByStatusEquals(0L);
+    }
+
+    @Override
     public List<ItemRequestDTO> getAllItem(Long idCabang) {
         HashMap<String, List<HashMap<String, Object>>> hashResponse = webClient.get().uri(setting.Item + "/api/item")
                 .retrieve()

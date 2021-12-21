@@ -139,6 +139,35 @@ public class CabangController {
         return "viewall-cabang";
     }
 
+    @GetMapping("/cabang/list-request-cabang")
+    public String listRequestCabang(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        List<CabangModel> listCabang = cabangRestService.retrieveListRequestCabang();
+        
+        model.addAttribute("role",currentPrincipalName);
+        model.addAttribute("listCabang", listCabang);
+          if (currentPrincipalName.equals("[Kepala Retail]")) {
+              return "viewall-request-cabang";
+          }   
+          return "Access-DeniedItem";
+    }
+
+    @PostMapping("/cabang/list-request-cabang")
+    public String requestCabang(@ModelAttribute CabangModel cabang,
+            Model model){
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         String currentPrincipalName = authentication.getName();
+         UserModel penanggungJawab = userService.findUserbyUsername(currentPrincipalName);
+
+         cabang.setPenanggungJawab(penanggungJawab);
+         cabangService.updateCabang(cabang);
+
+         model.addAttribute("role",currentPrincipalName);
+         List<CabangModel> listCabang = cabangRestService.retrieveListRequestCabang();
+         model.addAttribute("listCabang", listCabang);
+         return "viewall-request-cabang";
+    }
 
 
     @GetMapping("/kupon/{cabangId}/{itemId}")
