@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+  <title>SI-RETAIL</title>
+  <meta charset="UTF-8">
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body style="background-color: #A3D2CA">
+<nav th:replace="fragments/fragment :: navbar('Cabang')"></nav>
+<div class="container">
+  <h2>Daftar Seluruh Cabang Emsidi</h2>
+  <br>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>No</th>
+      <th>Id Cabang</th>
+      <th>Nama Cabang</th>
+      <th>Nomor Telepon Cabang</th>
+      <th>Ukuran Cabang (M)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cabang, iterationStatus : ${listCabang}"
+        th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+      <td th:text="${iterationStatus.count}"></td>
+      <form th:action="@{/cabang/list-request-cabang}" method="post" th:object="${cabang}">
+        <input type="hidden" th:value="*{Id}" id="Id" name="Id"/>
+        <input type="hidden" th:value="*{namaCabang}" id="namaCabang" name="namaCabang"/>
+        <input type="hidden" th:value="*{alamatCabang}" id="alamatCabang" name="alamatCabang"/>
+        <input type="hidden" th:value="*{noTeleponCabang}" id="noTeleponCabang" name="noTeleponCabang"/>
+        <input type="hidden" th:value="*{ukuranCabang}" id="ukuranCabang" name="ukuranCabang"/>
+
+        <td th:text="${cabang.Id}"></td>
+        <td th:text="${cabang.namaCabang}"></td>
+        <td th:text="${cabang.noTeleponCabang}"></td>
+        <td th:text="${cabang.ukuranCabang}"></td>
+
+        <td>
+          <select class="form-control selcls" name="status">
+            <option value=0>Menunggu Persetujuan</option>
+            <option value=1>Tolak</option>
+            <option value=2>Setuju</option>
+          </select>
+
+<!--          <button class="btn btn-outline-dark" value=1 name="status" type="submit">Tolak</button>-->
+<!--          <button class="btn btn-outline-dark" value=2  name="status" type="submit">Setujui</button>-->
+          <button class="btn btn-outline-dark" type="submit">Submit</button>
+        </td>
+      </form>
+
+    </tr>
+    </tbody>
+  </table>
+  <a class="btn btn-outline-dark" href="/">Home</a>
+</div>
+
+</body>
+
+</html>
