@@ -56,6 +56,34 @@ public class UserController {
 //        return "Acces-Denied";
 //    }
 
+    @GetMapping(value = "/viewall")
+    private String viewAllUser(Model model){
+        List<UserModel> listUser = userService.getUserList();
+        model.addAttribute("listUser", listUser);
+        return "viewall-user";
+    }
+
+    @GetMapping(value = "/update/{username}")
+    private String updateUser(@PathVariable String username, Model model){
+        UserModel user = userService.findUserbyUsername(username);
+        List<RoleModel> listRole = roleService.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+            model.addAttribute("user", user);
+            model.addAttribute("listRole", listRole);
+            return "form-update-user";
+        }
+        return "Access-Denied";
+    }
+
+    @PostMapping(value = "/update")
+    private String updateUserSubmit(@ModelAttribute UserModel user, Model model){
+        userService.updateUser(user);
+        model.addAttribute("username", user.getUsername());
+        return "update-user";
+    }
+
 //    @RequestMapping("/delete/{username}")
 //    public String deleteUser(@PathVariable String username, Model model) {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
