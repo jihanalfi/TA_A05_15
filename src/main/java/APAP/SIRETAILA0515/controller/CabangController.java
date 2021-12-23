@@ -136,6 +136,8 @@ public class CabangController {
             model.addAttribute("listCabang", listCabang);
             return "viewall-cabang";
         }
+        List<CabangModel> listCabang = cabangService.getCabangList();
+        model.addAttribute("listCabang", listCabang);
         return "viewall-cabang";
     }
 
