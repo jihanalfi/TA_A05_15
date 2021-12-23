@@ -48,6 +48,11 @@
                 <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" th:href="@{/cabang/update/} + ${cabang.Id}">Update Cabang</a>
                 <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark" th:href="@{/cabang/update/} + ${cabang.Id}">Update Cabang</a>
             </td>
+
+            <td>
+                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" th:href="@{/cabang/delete/} + ${cabang.Id}">Delete Cabang</a>
+                <a th:if="${role == '[Manager Cabang]'}" class="btn btn-outline-dark" th:href="@{/cabang/delete/} + ${cabang.Id}">Delete Cabang</a>
+            </td>
         </tr>
         </tbody>
     </table>

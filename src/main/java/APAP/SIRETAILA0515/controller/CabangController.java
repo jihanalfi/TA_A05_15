@@ -116,7 +116,26 @@ public class CabangController {
     public String listCabang(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getAuthorities().toString();
+        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
+        String namaPengguna = authentication.getName();
         model.addAttribute("role",currentPrincipalName);
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+            List<CabangModel> listCabang = cabangService.getCabangList();
+            model.addAttribute("listCabang", listCabang);
+            return "viewall-cabang";
+        } else if (currentPrincipalName.equals("[Manager Cabang]")) {
+            List<CabangModel> listCabangBefore = cabangService.getCabangList();
+            List<CabangModel> listCabang = new ArrayList<CabangModel>();
+//            System.out.println(namaPengguna);
+            for (CabangModel c:listCabangBefore) {
+//                System.out.println(c.getPenanggungJawab().getUsername());
+                if (c.getPenanggungJawab().getUsername().equals(namaPengguna)){
+                    listCabang.add(c);
+                }
+            }
+            model.addAttribute("listCabang", listCabang);
+            return "viewall-cabang";
+        }
         List<CabangModel> listCabang = cabangService.getCabangList();
         model.addAttribute("listCabang", listCabang);
         return "viewall-cabang";
@@ -152,6 +171,7 @@ public class CabangController {
          return "viewall-request-cabang";
     }
 
+
     @GetMapping("/kupon/{cabangId}/{itemId}")
     public String pakaiKupon(Model model, @PathVariable Long cabangId,@PathVariable Long itemId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -166,6 +186,20 @@ public class CabangController {
         model.addAttribute("cabang",cabang);
         model.addAttribute("item",item);
         return "list-kupon";
+    }
+    @GetMapping("/cabang/{cabangId}/delete/{itemId}")
+    public String deleteItem(
+            @PathVariable Long cabangId,@PathVariable Long itemId, Model model
+    ) {
+        CabangModel cabang = cabangService.getCabangById(cabangId);
+        ItemCabangModel item = itemCabangService.getItemById(itemId);
+        String Id = cabang.getId().toString();
+        String namaItem = item.getNama();
+        model.addAttribute("Id",Id);
+        model.addAttribute("namaItem",namaItem);
+        itemCabangService.deleteItem(item);
+        return "delete-item";
+
     }
 
     @PostMapping(value="/kupon/{cabangId}/{itemId}")
@@ -310,23 +344,60 @@ public class CabangController {
 
     }
 
-//    @GetMapping("/cabang/update/{noCabang}")
-//    public String updateCabangForm(
-//            @PathVariable Long noCabang,
-//            Model model
-//    ) {
-//        CabangModel cabang = cabangService.getCabangByNoCabang(noCabang);
-//        model.addAttribute("cabang", cabang);
-//        return "form-update-cabang";
-//    }
-//
-//    @PostMapping("/cabang/update")
-//    public String updateCabangSubmit(
-//            @ModelAttribute CabangModel cabang,
-//            Model model
-//    ) {
-//        cabangService.updateCabang(cabang);
-//        model.addAttribute("noCabang", cabang.getNoCabang());
-//        return "update-cabang";
-//    }
+    @GetMapping("/cabang/update/{noCabang}")
+    public String updateCabangForm(
+            @PathVariable Long noCabang,
+            Model model
+
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getAuthorities().toString();
+        CabangModel cabang = cabangService.getCabangByNoCabang(noCabang);
+        if (currentPrincipalName.equals("[Kepala Retail]")) {
+            model.addAttribute("cabang", cabang);
+            return "form-update-cabang";
+        }
+        else if (currentPrincipalName.equals("[Manager Cabang]")) {
+            UserModel user = userService.findUserbyUsername(authentication.getName().toString());
+            if (cabang.getPenanggungJawab().equals(user)) {
+                model.addAttribute("cabang", cabang);
+                return "form-update-cabang";
+            }
+        }
+        return "Access-DeniedItem";
+
+    }
+
+    @PostMapping("/cabang/update")
+    public String updateCabangSubmit(
+            @ModelAttribute CabangModel cabang,
+            Model model
+    ) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
+        int i=2;
+        long status = i;
+        cabang.setPenanggungJawab(penanggung_jawab);
+        cabang.setStatus(status);
+        cabangService.updateCabang(cabang);
+        model.addAttribute("noCabang", cabang.getId());
+        return "update-cabang";
+    }
+
+    @GetMapping("/cabang/delete/{noCabang}")
+    public String deleteCabang(
+            @PathVariable Long noCabang,
+            Model model
+    ) {
+        CabangModel cabang = cabangService.getCabangByNoCabang(noCabang);
+        if (cabang.getListItemCabang().isEmpty()) {
+            model.addAttribute("cabang",cabang);
+            cabangService.deleteCabang(cabang);
+            return "delete-cabang";
+        }
+
+        return "Access-DeniedDeleteCabang";
+    }
+
 }

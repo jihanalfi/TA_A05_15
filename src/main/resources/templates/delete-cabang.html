@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
+    <title>SI-RETAIL</title>
     <meta charset="UTF-8">
-    <title>Information</title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body style="background-color: #A3D2CA">
-<nav th:replace="fragments/fragment :: navbar('Home')"></nav>
+<nav th:replace="fragments/fragment :: navbar('User')"></nav>
 <div class="container">
     <div class="card m-4 p-4" style="background-color: #F7F3E9">
         <div class="card-body">
             <div class="justify-content-center">
-                <br>
-                <h2 >Maaf, Anda Bukan Kepala Retail, Tidak Bisa Menambahkan User!</h2>
-                <br>
+                <h2 th:text="'Cabang dengan nomor ' + ${noCabang} + ' berhasil dihapus'"></h2>
                 <a class="btn btn-outline-dark" href="/">Kembali ke Home</a>
             </div>
         </div>
