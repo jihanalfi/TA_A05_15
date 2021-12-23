@@ -61,4 +61,9 @@ public class UserServiceImpl implements UserService {
     public void setPassword(UserModel myUser, String newPassword) {
         myUser.setPassword(newPassword);
     }
+
+    @Override
+    public void updateUser(UserModel user){
+        userDb.save(user);
+    }
 }

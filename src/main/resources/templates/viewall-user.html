@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>SI-RETAIL</title>
+    <meta charset="UTF-8">
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body style="background-color: #A3D2CA">
+    <nav th:replace="fragments/fragment :: navbar('Cabang')"></nav>
+    <h2>Daftar Seluruh User</h2>
+    <br>
+    <div th:each="user : ${listUser}" class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <p th:text="'ID : ' + ${user.id}"></p>
+                <p th:text="'Username : ' + ${user.username}"></p>
+                <p th:text="'Nama : ' + ${user.nama}"></p>
+                <br>
+                <a class="btn btn-primary" th:href="@{user/update/} + ${user.username}">Update Cabang</a>
+            </div>
+        </div>
+        <br>
+    </div>
+    <a class="btn btn-primary" href="/">Home</a>
+</div>
+</body>
+</html>
