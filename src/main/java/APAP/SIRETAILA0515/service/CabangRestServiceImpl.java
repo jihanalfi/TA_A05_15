@@ -61,4 +61,8 @@ public class CabangRestServiceImpl implements CabangRestService {
         return cabangDb.save(newcabang);
     }
 
+    @Override
+    public CabangModel bikinCabang(CabangModel cabang){
+        return cabangDb.save(cabang);
+    }
 }

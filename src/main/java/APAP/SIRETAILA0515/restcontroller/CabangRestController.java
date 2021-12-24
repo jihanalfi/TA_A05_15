@@ -30,7 +30,7 @@ public class CabangRestController {
     }
 
     @PostMapping(value="/cabang/bikincabang")
-    private BaseResponse<CabangModel> bikinCabangSubmit(@Valid @RequestBody CabangDTO cabang,
+    private BaseResponse<CabangModel> bikinCabangSubmit(@Valid @RequestBody CabangModel cabang,
     BindingResult bindingResult){
         BaseResponse<CabangModel> response = new BaseResponse<>();
         if (bindingResult.hasFieldErrors()) {
@@ -38,7 +38,7 @@ public class CabangRestController {
                     HttpStatus.BAD_REQUEST, "Request Body has invalid type or missing field");
         } else {
             try {
-                CabangModel cabangBaru = cabangRestService.createCabang(cabang);
+                CabangModel cabangBaru = cabangRestService.bikinCabang(cabang);
                 response.setStatus(201);
                 response.setMessage("created");
                 response.setResult(cabangBaru);
