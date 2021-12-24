@@ -208,9 +208,9 @@ public class CabangController {
         String currentPrincipalName = authentication.getName();
         UserModel penanggung_jawab = userService.findUserbyUsername(currentPrincipalName);
         ItemCabangModel item = itemCabangService.getItemById(itemId);
-        Long newHarga = item.getHarga()-Math.round(coupon.getDiscountAmount());
+        Long newHarga = item.getHarga()-Math.round(coupon.getDiscAmount());
         item.setHarga(newHarga);
-        item.setId_promo(coupon.getId());
+        item.setId_promo(coupon.getIdCoupon());
         itemCabangService.addItem(item);
         return "kupon-acc";
     }
