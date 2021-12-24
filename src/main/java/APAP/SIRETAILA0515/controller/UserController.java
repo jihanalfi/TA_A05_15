@@ -74,7 +74,7 @@ public class UserController {
             model.addAttribute("listRole", listRole);
             return "form-update-user";
         }
-        return "Access-Denied";
+        return "Access-DeniedItem";
     }
 
     @PostMapping(value = "/update")
