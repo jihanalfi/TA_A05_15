@@ -39,6 +39,7 @@ public class CabangRestController {
         } else {
             try {
                 CabangModel cabangBaru = cabangRestService.bikinCabang(cabang);
+                cabangBaru.setStatus(0L)
                 response.setStatus(201);
                 response.setMessage("created");
                 response.setResult(cabangBaru);
