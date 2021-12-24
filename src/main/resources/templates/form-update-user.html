@@ -14,12 +14,14 @@
             <div class="justify-content-center">
                 <h2>Update User</h2>
                 <br>
-                <form th:action="@{/user/add}" th:object="${user}" method="POST">
+                <form th:action="@{/user/update}" th:object="${user}" method="POST">
+                    <input type="hidden" th:field="*{id}" />
+
                     <label>Username</label>
-                    <input type="text" name="username" class="form-control"/>
+                    <input type="text" name="username" class="form-control" th:value="*{username}"/>
 
                     <label>Nama</label>
-                    <input type="text" name="nama" class="form-control"/>
+                    <input type="text" name="nama" class="form-control" th:value="*{nama}"/>
 
                     <label>Password</label>
                     <input type="password" name="password" class="form-control" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" title="password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character" />
@@ -35,8 +37,8 @@
                     </select>
                     <br>
                     <br>
-                    <button type="submit" class="btn btn-outline-dark">Submit</button>
-                    <button class="btn"><a class="text-muted" href="/">Cancel</a></button>
+                    <button type="submit" class="btn btn-outline-dark">Ubah</button>
+                    <button class="btn"><a class="text-muted" href="/user/viewall">Cancel</a></button>
                 </form>
             </div>
 
