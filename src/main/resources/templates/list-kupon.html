@@ -32,18 +32,18 @@
         <tr th:each="kupon, iterationStatus : ${listKupon}"
             th:style="${iterationStatus.even} ? 'font-weight:bold;'">
             <td th:text="${iterationStatus.count}"></td>
-            <td th:text="${kupon.id}"></td>
-            <td th:text="${kupon.coupon_code}"></td>
-            <td th:text="${kupon.coupon_name}"></td>
-            <td th:text="${kupon.discountAmount}"></td>
+            <td th:text="${kupon.idCoupon}"></td>
+            <td th:text="${kupon.couponCode}"></td>
+            <td th:text="${kupon.couponName}"></td>
+            <td th:text="${kupon.discAmount}"></td>
             <td th:text="${kupon.expiryDate}"></td>
             <td>
-                <div><input class="form-check-input" type="radio" th:field="*{id}"
-                       th:value="${kupon.id}"/>Kupon</div>
+                <div><input class="form-check-input" type="radio" th:field="*{idCoupon}"
+                       th:value="${kupon.idCoupon}"/>Kupon</div>
 <!--                <div><input class="form-control" type="text"  th:field="*{discountAmount}"-->
 <!--                            th:value="${kupon.discountAmount}" th:text="${kupon.discountAmount}" disabled/></div>-->
-                <div><input class="form-check-input" type="radio" th:field="*{discountAmount}"
-                       th:value="${kupon.discountAmount}"/>Harga</div>
+                <div><input class="form-check-input" type="radio" th:field="*{discAmount}"
+                       th:value="${kupon.discAmount}"/>Harga</div>
             </td>
 <!--            <td>-->
 <!--                <a th:if="${role == '[Kepala Retail]'}" class="btn btn-outline-dark" type="submit">Terapkan</a>-->
