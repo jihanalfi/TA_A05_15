@@ -10,8 +10,8 @@ import java.util.Date;
 
 public class CouponDetail {
 
-    @JsonProperty("id")
-    private Integer id;
+  @JsonProperty("id")
+    private Integer idCoupon;
 
     @JsonProperty("couponCode")
     private String couponCode;
@@ -20,7 +20,7 @@ public class CouponDetail {
     private String couponName;
 
     @JsonProperty("discountAmount")
-    private Float discountAmount;
+    private Float discAmount;
 
     @JsonProperty("expiryDate")
     private Date expiryDate;
